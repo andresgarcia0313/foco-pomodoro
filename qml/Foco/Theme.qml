@@ -19,7 +19,7 @@ QtObject {
     readonly property color textMuted: dark ? "#B6BCD8" : "#5C5848"
     readonly property color border: dark ? "#6272A4" : "#6C664B"
     readonly property color accent: dark ? "#BD93F9" : "#644AC9"
-    readonly property color onAccent: dark ? "#282A36" : "#FFFBEB"
+    readonly property color accentLabel: dark ? "#282A36" : "#FFFBEB"
     readonly property color focusPhase: dark ? "#FF79C6" : "#A3144D"
     readonly property color shortBreak: dark ? "#50FA7B" : "#14710A"
     readonly property color longBreak: dark ? "#8BE9FD" : "#036A96"

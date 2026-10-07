@@ -15,6 +15,10 @@ QtObject {
         { name: "10-minima-340x520", w: 340, h: 520, noActive: true, state: 0, remaining: 1500 },
         { name: "11-tareas-vacias", section: 1, emptyTasks: true },
         { name: "12-estadisticas-vacias", section: 2, emptyStats: true },
-        { name: "13-letra-doble-minima", w: 340, h: 520, fontScale: 2 }
+        { name: "13-letra-doble-minima", w: 340, h: 520, fontScale: 2 },
+        { name: "14-ajustes-dracula", kind: "settings", w: 460, h: 900 },
+        { name: "15-ajustes-alucard", kind: "settings", appearance: 1, w: 460, h: 900 },
+        { name: "16-mini-dracula", kind: "mini", w: 260, h: 96 },
+        { name: "17-mini-descanso-alucard", kind: "mini", appearance: 1, phase: 1, w: 260, h: 96 }
     ]
 }

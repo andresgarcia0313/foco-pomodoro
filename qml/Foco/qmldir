@@ -1,27 +1,45 @@
 module Foco
 singleton Theme 1.0 Theme.qml
 singleton Phases 1.0 Phases.qml
+AboutDialog 1.0 AboutDialog.qml
 ActiveTask 1.0 ActiveTask.qml
+AppMenu 1.0 AppMenu.qml
 AppShell 1.0 AppShell.qml
 ClockFace 1.0 ClockFace.qml
+ComboRow 1.0 ComboRow.qml
 DisclosureButton 1.0 DisclosureButton.qml
 FocusRing 1.0 FocusRing.qml
 IconButton 1.0 IconButton.qml
 Icon 1.0 Icon.qml
+MainWindow 1.0 MainWindow.qml
+MiniView 1.0 MiniView.qml
+MiniWindow 1.0 MiniWindow.qml
+MinutesRow 1.0 MinutesRow.qml
 NavBar 1.0 NavBar.qml
 NavTab 1.0 NavTab.qml
 PhaseRing 1.0 PhaseRing.qml
 PhaseSelector 1.0 PhaseSelector.qml
 PrimaryButton 1.0 PrimaryButton.qml
+SettingGroup 1.0 SettingGroup.qml
+SettingRow 1.0 SettingRow.qml
+SettingsPage 1.0 SettingsPage.qml
+SettingsWindow 1.0 SettingsWindow.qml
+ShortcutsDialog 1.0 ShortcutsDialog.qml
 StatsView 1.0 StatsView.qml
+SwitchRow 1.0 SwitchRow.qml
 TaskInput 1.0 TaskInput.qml
 TaskRow 1.0 TaskRow.qml
 TasksView 1.0 TasksView.qml
+ThemedComboBox 1.0 ThemedComboBox.qml
+ThemedDialog 1.0 ThemedDialog.qml
 ThemedMenuItem 1.0 ThemedMenuItem.qml
 ThemedMenu 1.0 ThemedMenu.qml
+ThemedSlider 1.0 ThemedSlider.qml
 ThemedSpinBox 1.0 ThemedSpinBox.qml
+ThemedSwitch 1.0 ThemedSwitch.qml
 ThemedTextField 1.0 ThemedTextField.qml
 TimerControls 1.0 TimerControls.qml
 TimerView 1.0 TimerView.qml
 UndoToast 1.0 UndoToast.qml
 WeekChart 1.0 WeekChart.qml
+WindowShortcuts 1.0 WindowShortcuts.qml

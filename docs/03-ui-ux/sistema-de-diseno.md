@@ -28,7 +28,7 @@ Guidelines, pautas de accesibilidad para contenido web).
 | `textMuted` | `#B6BCD8` | `#5C5848` | 7,58 y 6,05 sobre tarjeta |
 | `border` | `#6272A4` | `#6C664B` | 3,03 y 5,56 (no texto) |
 | `accent` (acción principal, foco) | `#BD93F9` | `#644AC9` | 5,90 y 6,02 |
-| `onAccent` (etiqueta sobre relleno) | `#282A36` | `#FFFBEB` | 5,90 y 6,02 |
+| `accentLabel` (etiqueta sobre relleno) | `#282A36` | `#FFFBEB` | 5,90 y 6,02 |
 | `focusPhase` | `#FF79C6` | `#A3144D` | 5,97 y 7,33 |
 | `shortBreak` | `#50FA7B` | `#14710A` | 10,38 y 5,96 |
 | `longBreak` | `#8BE9FD` | `#036A96` | 10,29 y 5,78 |

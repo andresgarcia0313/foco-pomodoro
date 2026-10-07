@@ -19,10 +19,10 @@ AbstractButton {
             id: row
             anchors.centerIn: parent
             spacing: Theme.s2
-            Icon { glyph: control.iconName; color: Theme.onAccent; visible: glyph !== "" }
+            Icon { glyph: control.iconName; color: Theme.accentLabel; visible: glyph !== "" }
             Text {
                 text: control.text
-                color: Theme.onAccent
+                color: Theme.accentLabel
                 font.pointSize: Theme.body * 1.05
                 font.weight: Font.DemiBold
             }
