@@ -1,0 +1,27 @@
+module Foco
+singleton Theme 1.0 Theme.qml
+singleton Phases 1.0 Phases.qml
+ActiveTask 1.0 ActiveTask.qml
+AppShell 1.0 AppShell.qml
+ClockFace 1.0 ClockFace.qml
+DisclosureButton 1.0 DisclosureButton.qml
+FocusRing 1.0 FocusRing.qml
+IconButton 1.0 IconButton.qml
+Icon 1.0 Icon.qml
+NavBar 1.0 NavBar.qml
+NavTab 1.0 NavTab.qml
+PhaseRing 1.0 PhaseRing.qml
+PhaseSelector 1.0 PhaseSelector.qml
+PrimaryButton 1.0 PrimaryButton.qml
+StatsView 1.0 StatsView.qml
+TaskInput 1.0 TaskInput.qml
+TaskRow 1.0 TaskRow.qml
+TasksView 1.0 TasksView.qml
+ThemedMenuItem 1.0 ThemedMenuItem.qml
+ThemedMenu 1.0 ThemedMenu.qml
+ThemedSpinBox 1.0 ThemedSpinBox.qml
+ThemedTextField 1.0 ThemedTextField.qml
+TimerControls 1.0 TimerControls.qml
+TimerView 1.0 TimerView.qml
+UndoToast 1.0 UndoToast.qml
+WeekChart 1.0 WeekChart.qml

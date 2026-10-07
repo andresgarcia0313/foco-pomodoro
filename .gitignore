@@ -1,0 +1,6 @@
+target/
+*.json.tmp
+/build/
+/dist/
+*.AppImage
+.DS_Store
