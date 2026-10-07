@@ -20,7 +20,7 @@ for archivo in "${archivos[@]}"; do
   grep -qP '[\x{2013}\x{2014}]' "$archivo" && fallos+=("contiene raya larga o corta")
   grep -qiP '\bclaude\b|anthropic|chatgpt|openai|copilot|generated with|co-authored-by' "$archivo" \
     && fallos+=("rastro de asistencia automatizada")
-  grep -qiP 'ci[oó]nes\b|si[oó]nes\b|gesti[oó]na\b' "$archivo" && fallos+=("hipercorrección de tildes")
+  grep -qP 'ci[óÓ]nes\b|si[óÓ]nes\b|gesti[óÓ]na\b' "$archivo" && fallos+=("hipercorrección de tildes")
   grep -qiP 'plant\s?uml|\.puml\b' "$archivo" && fallos+=("nombra PlantUML o rutas .puml")
   grep -q '^## Control de cambios' "$archivo" || fallos+=("falta la sección '## Control de cambios'")
 
