@@ -1,4 +1,6 @@
 //! Foco: Pomodoro timer for the desktop. Rust owns the state; QML draws it.
+// No console window behind the app on Windows.
+#![cfg_attr(windows, windows_subsystem = "windows")]
 
 mod kwin;
 mod notify;
