@@ -61,7 +61,7 @@ libs="$(dpkg-shlibdeps -O usr/bin/foco 2>/dev/null | sed 's/^shlibs:Depends=//')
 rm -r debian
 qml="qml6-module-qtquick, qml6-module-qtquick-controls, qml6-module-qtquick-templates,
  qml6-module-qtquick-layouts, qml6-module-qtquick-shapes, qml6-module-qtquick-dialogs,
- qml6-module-qtquick-window, qml6-module-qtqml-workerscript, qml6-module-qtcore,
+ qml6-module-qtquick-window, qml6-module-qtqml-workerscript, qml6-module-qt-labs-settings,
  qml6-module-qt-labs-platform, qml6-module-qtmultimedia, qt6-svg-plugins | libqt6svg6"
 install -d DEBIAN
 cat > DEBIAN/control <<EOF

@@ -1,9 +1,10 @@
-import QtCore
 import QtQuick
 import QtQuick.Controls.Basic
 import QtQuick.Dialogs
 import Foco
 import FocoApp
+// QtCore's Settings needs Qt 6.5; the labs one also runs on the 6.4 of Debian 12.
+import Qt.labs.settings
 
 // Wires the Rust objects into the interface: windows, tray, chime, export and the tick.
 MainWindow {
@@ -26,7 +27,7 @@ MainWindow {
     // Window size and mode come back exactly as they were left.
     Settings {
         id: uiState
-        location: services.stateFile
+        fileName: services.stateFile
         property bool mini: false
         property alias width: win.width
         property alias height: win.height

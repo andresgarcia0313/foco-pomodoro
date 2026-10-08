@@ -34,7 +34,7 @@ fn main() {
 }
 
 /// The hand-written `Foco` module (also used by the design prototypes), served from
-/// `qrc:/qt/qml/Foco`, which is on the default QML import path.
+/// `qrc:/qt/qml/Foco`; `app_shim.cpp` puts that folder on the import path.
 fn interface_module(dir: &Path) -> QResource {
     let mut files = Vec::new();
     for sub in ["", "icons"] {

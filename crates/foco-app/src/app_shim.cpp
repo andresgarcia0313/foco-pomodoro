@@ -28,6 +28,9 @@ extern "C" int foco_app_run() {
     int code = 0;
     {
         QQmlApplicationEngine engine;
+        // The Foco module lives in qrc:/qt/qml, a default import path only since Qt 6.5;
+        // Debian 12 and Ubuntu 24.04 ship 6.4.
+        engine.addImportPath(QStringLiteral("qrc:/qt/qml"));
         QObject::connect(
             &engine, &QQmlApplicationEngine::objectCreationFailed, qApp,
             [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);

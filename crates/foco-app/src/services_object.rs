@@ -3,22 +3,20 @@
 
 use crate::{kwin, store, supervisor};
 use core::pin::Pin;
-use cxx_qt_lib::{QString, QUrl};
+use cxx_qt_lib::QString;
 
 #[cxx_qt::bridge]
 pub mod qobject {
     unsafe extern "C++" {
         include!("cxx-qt-lib/qstring.h");
         type QString = cxx_qt_lib::QString;
-        include!("cxx-qt-lib/qurl.h");
-        type QUrl = cxx_qt_lib::QUrl;
     }
 
     extern "RustQt" {
         #[qobject]
         #[qml_element]
-        /// Window size and mini mode, kept by QtCore's `Settings` next to `foco.json`.
-        #[qproperty(QUrl, state_file, cxx_name = "stateFile")]
+        /// Window size and mini mode, kept by `Qt.labs.settings` next to `foco.json`.
+        #[qproperty(QString, state_file, cxx_name = "stateFile")]
         type AppServices = super::ServicesRust;
 
         #[qinvokable]
@@ -37,15 +35,13 @@ pub mod qobject {
 
 #[derive(Default)]
 pub struct ServicesRust {
-    state_file: QUrl,
+    state_file: QString,
 }
 
 impl cxx_qt::Initialize for qobject::AppServices {
     fn initialize(self: Pin<&mut Self>) {
         let path = store::config_dir().join("interfaz.ini");
-        let path = path.to_string_lossy().replace('\\', "/");
-        let slash = if path.starts_with('/') { "" } else { "/" };
-        self.set_state_file(QUrl::from(format!("file://{slash}{path}").as_str()));
+        self.set_state_file(QString::from(path.to_string_lossy().as_ref()));
     }
 }
 
