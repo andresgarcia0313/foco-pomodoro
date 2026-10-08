@@ -25,15 +25,23 @@ extern "C" void foco_app_new(int argc, char **argv) {
 
 extern "C" int foco_app_run() {
     QApplication::setWindowIcon(QIcon(QStringLiteral(":/qt/qml/FocoApp/assets/foco.svg")));
-    QQmlApplicationEngine engine;
-    QObject::connect(
-        &engine, &QQmlApplicationEngine::objectCreationFailed, qApp,
-        [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
-    // Smoke tests and CI: quit on their own after the given milliseconds.
-    if (qEnvironmentVariableIsSet("FOCO_AUTOQUIT_MS")) {
-        QTimer::singleShot(qEnvironmentVariableIntValue("FOCO_AUTOQUIT_MS"), qApp,
-                           &QCoreApplication::quit);
+    int code = 0;
+    {
+        QQmlApplicationEngine engine;
+        QObject::connect(
+            &engine, &QQmlApplicationEngine::objectCreationFailed, qApp,
+            [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
+        // Smoke tests and CI: quit on their own after the given milliseconds.
+        if (qEnvironmentVariableIsSet("FOCO_AUTOQUIT_MS")) {
+            QTimer::singleShot(qEnvironmentVariableIntValue("FOCO_AUTOQUIT_MS"), qApp,
+                               &QCoreApplication::quit);
+        }
+        engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FocoApp/qml/Main.qml")));
+        code = QApplication::exec();
     }
-    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FocoApp/qml/Main.qml")));
-    return QApplication::exec();
+    // Ordered teardown: QtMultimedia's audio engine is deleted later; if those events ran
+    // from exit() handlers, after Qt's statics were gone, the process crashed on quit.
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+    delete qApp;
+    return code;
 }
