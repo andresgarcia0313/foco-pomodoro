@@ -31,7 +31,7 @@ jobs:
           apt-get install -y -qq --no-install-recommends build-essential ca-certificates curl git \
             pkg-config dpkg-dev file librsvg2-bin libgl-dev qt6-base-dev qt6-base-dev-tools \
             qt6-declarative-dev qt6-declarative-dev-tools qt6-multimedia-dev
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Rust
         run: |
           curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-24.04
     container: ${{ matrix.image }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/download-artifact@v4
         with:
           name: deb-${{ strategy.job-index }}
@@ -69,7 +69,7 @@ jobs:
   windows:
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d # stable
       - # Tag, not commit: its post step names itself by ref and breaks when pinned by commit.
         uses: jurplel/install-qt-action@v4
@@ -137,7 +137,7 @@ jobs:
           - { os: macos-15-intel, arch: x86_64 }
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d # stable
       - # Tag, not commit: its post step names itself by ref and breaks when pinned by commit.
         uses: jurplel/install-qt-action@v4
