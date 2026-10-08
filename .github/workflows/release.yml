@@ -94,6 +94,8 @@ jobs:
           FOCO_AUTOQUIT_MS: "5000"
           FOCO_CONFIG_DIR: ${{ runner.temp }}\foco
         run: |
+          Remove-Item Env:QT_PLUGIN_PATH, Env:QML2_IMPORT_PATH -ErrorAction SilentlyContinue
+          $env:PATH = ($env:PATH -split ';' | Where-Object { $_ -notlike '*\Qt\*' }) -join ';'
           $p = Start-Process dist/Foco/foco.exe -ArgumentList --mute -Wait -PassThru `
             -RedirectStandardError smoke.log
           Get-Content smoke.log
@@ -154,7 +156,9 @@ jobs:
           QT_QPA_PLATFORM: offscreen
           FOCO_AUTOQUIT_MS: "5000"
           FOCO_CONFIG_DIR: ${{ runner.temp }}/foco
+        # Without the toolchain's Qt paths: the bundle must carry every plugin it needs.
         run: |
+          unset QT_PLUGIN_PATH QML2_IMPORT_PATH QML_IMPORT_PATH
           dist/Foco.app/Contents/MacOS/foco --mute 2> smoke.log || { cat smoke.log; exit 1; }
           cat smoke.log
           ! grep -E "qrc:.*(Error|error|ReferenceError|TypeError|is not a type)|is not installed" smoke.log
