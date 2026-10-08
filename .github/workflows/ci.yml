@@ -32,7 +32,7 @@ jobs:
         include:
           - { os: ubuntu-24.04, qt: 6.12.0 }
           - { os: ubuntu-24.04, qt: 6.10.3 }
-          - { os: windows-2022, qt: 6.12.0 }
+          - { os: windows-2022, qt: 6.10.3 }
           - { os: macos-15, qt: 6.12.0 }
     runs-on: ${{ matrix.os }}
     steps:
@@ -44,6 +44,7 @@ jobs:
         with:
           version: ${{ matrix.qt }}
           modules: qtmultimedia
+          aqtversion: ==3.3.*
           cache: true
       - if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev libxkbcommon-dev
