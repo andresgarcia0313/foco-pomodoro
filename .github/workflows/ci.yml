@@ -44,7 +44,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d # stable
         with:
           components: clippy
-      - uses: jurplel/install-qt-action@a9c63c7c123f3069cff414e7e482d95dfa9d8125 # v4.4.1
+      - # Tag, not commit: its post step names itself by ref and breaks when pinned by commit.
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{ matrix.qt }}
           modules: qtmultimedia
