@@ -44,7 +44,7 @@ jobs:
           QMAKE: /usr/bin/qmake6
       - id: pkg
         run: echo "deb=$(scripts/empaquetar-deb.sh target/release/foco)" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: deb-${{ strategy.job-index }}
           path: ${{ steps.pkg.outputs.deb }}
@@ -117,7 +117,7 @@ jobs:
           }
           $env:FOCO_VERSION = $v
           iscc packaging/windows/foco.iss
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: windows
           path: |
@@ -172,7 +172,7 @@ jobs:
           ln -s /Applications dist/Applications
           hdiutil create -volname Foco -srcfolder dist -ov -format UDZO \
             "Foco-$V-macos-${{ matrix.arch }}.dmg"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: macos-${{ matrix.arch }}
           path: Foco-*.dmg
