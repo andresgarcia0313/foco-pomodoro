@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.ingeniumcodex.foco</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Foco</name>
+  <summary>Pomodoro timer: focus and breaks</summary>
+  <summary xml:lang="es">Temporizador Pomodoro: enfoque y descansos</summary>
+  <description>
+    <p>Focus and break cycles with tasks, statistics, tray icon, mini mode and native notifications. Local data only, no accounts.</p>
+    <p xml:lang="es">Ciclos de enfoque y descanso con tareas, estadísticas, bandeja, modo mini y notificaciones nativas. Datos solo locales, sin cuentas.</p>
+  </description>
+  <launchable type="desktop-id">com.ingeniumcodex.foco.desktop</launchable>
+  <developer id="com.ingeniumcodex">
+    <name>Andrés García</name>
+  </developer>
+  <url type="homepage">https://github.com/andresgarcia0313/foco-pomodoro</url>
+  <url type="bugtracker">https://github.com/andresgarcia0313/foco-pomodoro/issues</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/andresgarcia0313/foco-pomodoro/main/docs/03-ui-ux/galeria/01-temporizador-enfoque-dracula.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.3.0" date="2026-10-08"/>
+  </releases>
+</component>
