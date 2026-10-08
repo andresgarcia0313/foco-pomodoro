@@ -12,6 +12,23 @@ Formato basado en "Keep a Changelog"; versiones con SemVer (versionado semántic
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-10-07 | Andrés García | Primera versión del registro |
 | 0.2.0 | 2026-10-08 | Andrés García | Versión 0.2.0: reanudación exacta, recuperación automática, ajuste de minutos y registro de uso |
+| 0.3.0 | 2026-10-08 | Andrés García | Versión 0.3.0: código abierto y paquetes para Linux, Windows y macOS |
+
+## [0.3.0] - 2026-10-08
+
+### Agregado
+
+- Código abierto en GitHub bajo GPL 3.0 o posterior.
+- Paquetes `.deb` para Debian 12 y 13 y Ubuntu 24.04 y 26.04, cada uno compilado con el Qt de
+  su distribución, con lanzador para los menús de los escritorios de Linux, iconos y metadatos
+  AppStream.
+- Instalador de Windows con entrada en el menú Inicio, más una versión portable en `.zip`.
+- `Foco.app` en imagen `.dmg` para macOS con Apple Silicon e Intel.
+- Flujo de publicación que compila, instala y arranca cada paquete antes de publicarlo.
+
+### Corregido
+
+- En Windows ya no se abre una ventana de consola detrás de Foco.
 
 ## [0.2.0] - 2026-10-08
 
