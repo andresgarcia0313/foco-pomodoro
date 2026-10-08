@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=Foco
+GenericName=Temporizador Pomodoro
+GenericName[en]=Pomodoro timer
+Comment=Enfoque y descansos con la técnica Pomodoro
+Comment[en]=Focus and breaks with the Pomodoro technique
+Exec=foco
+Icon=com.ingeniumcodex.foco
+Terminal=false
+Categories=Utility;Qt;
+Keywords=pomodoro;timer;temporizador;enfoque;focus;tareas;
+StartupNotify=true
+StartupWMClass=foco
+SingleMainWindow=true

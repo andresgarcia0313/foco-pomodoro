@@ -9,6 +9,8 @@ ApplicationWindow {
     required property QtObject stats
     required property QtObject settings
     property bool quitting: false
+    // Without a tray (some desktops) closing must quit, or the window would be lost.
+    property bool trayAvailable: true
     signal settingsRequested()
     signal miniRequested()
     signal exportRequested()
@@ -50,7 +52,7 @@ ApplicationWindow {
     AboutDialog { id: aboutDialog }
 
     onClosing: close => {
-        if (!quitting && settings.keepInTray) {
+        if (!quitting && settings.keepInTray && trayAvailable) {
             close.accepted = false
             win.hide()
             win.hiddenToTray()

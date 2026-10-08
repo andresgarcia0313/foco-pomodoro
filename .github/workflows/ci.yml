@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  core:
+    name: Core ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2022, macos-15]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --all --check
+      - run: cargo clippy -p foco-core --all-targets -- -D warnings
+      - run: cargo test -p foco-core
+
+  app:
+    name: App ${{ matrix.os }} Qt ${{ matrix.qt }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-24.04, qt: 6.12.0 }
+          - { os: ubuntu-24.04, qt: 6.10.3 }
+          - { os: windows-2022, qt: 6.12.0 }
+          - { os: macos-15, qt: 6.12.0 }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ matrix.qt }}
+          modules: qtmultimedia
+          cache: true
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev libxkbcommon-dev
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: qt-${{ matrix.qt }}
+      - run: cargo clippy -p foco-app --release -- -D warnings
+      - run: cargo build -p foco-app --release
+      - name: Smoke test without a display
+        if: runner.os == 'Linux'
+        env:
+          QT_QPA_PLATFORM: offscreen
+          FOCO_AUTOQUIT_MS: "4000"
+          FOCO_CONFIG_DIR: ${{ runner.temp }}/foco
+        run: |
+          ./target/release/foco --mute 2> smoke.log || { cat smoke.log; exit 1; }
+          cat smoke.log
+          ! grep -E "qrc:.*(Error|error|ReferenceError|TypeError|is not a type)" smoke.log
+
+  docs:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: scripts/validar-docs.sh

@@ -1,0 +1,4 @@
+{
+  // rust-analyzer builds in target/rust-analyzer, so it never blocks cargo build
+  "rust-analyzer.cargo.targetDir": true
+}

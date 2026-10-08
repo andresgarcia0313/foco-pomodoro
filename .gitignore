@@ -4,3 +4,6 @@ target/
 /dist/
 *.AppImage
 .DS_Store
+aqtinstall.log
+.memsearch/
+/target-build-app.log
