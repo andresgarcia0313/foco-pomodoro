@@ -25,6 +25,8 @@ pub struct PhaseEnd {
     /// A completed focus block: it adds to the cycle, the active task and the history.
     pub counted: bool,
     pub auto_started: bool,
+    /// Length of the finished phase in whole minutes, adjustments included.
+    pub minutes: u32,
 }
 
 impl Phase {

@@ -1,7 +1,7 @@
+import QtCore
 import QtQuick
 import QtQuick.Controls.Basic
 import QtQuick.Dialogs
-import QtMultimedia
 import Foco
 import FocoApp
 
@@ -13,7 +13,7 @@ MainWindow {
     stats: statsStore
     settings: appSettings
     trayAvailable: tray.available
-    visible: true
+    visible: false
     // --mute: never play the chime (tests, CI, shared rooms).
     readonly property bool muted: Qt.application.arguments.indexOf("--mute") >= 0
     property bool trayHintShown: false
@@ -22,6 +22,15 @@ MainWindow {
     TaskStore { id: taskStore }
     StatsStore { id: statsStore }
     AppSettings { id: appSettings; onApplied: pomodoro.sync() }
+    AppServices { id: services }
+    // Window size and mode come back exactly as they were left.
+    Settings {
+        id: uiState
+        location: services.stateFile
+        property bool mini: false
+        property alias width: win.width
+        property alias height: win.height
+    }
 
     Binding { target: Theme; property: "appearance"; value: appSettings.appearance }
     Binding { target: Theme; property: "reduceMotion"; value: appSettings.reduceMotion }
@@ -30,7 +39,7 @@ MainWindow {
         target: pomodoro
         function onPhaseEnded(finished, next, counted) {
             if (counted) { taskStore.refresh(); statsStore.refresh() }
-            if (appSettings.sound && !win.muted) chime.play()
+            if (chime.item) chime.item.play()
         }
     }
     Timer {
@@ -43,23 +52,35 @@ MainWindow {
         running: taskStore.canUndo
         onTriggered: taskStore.commitRemove()
     }
-    SoundEffect {
-        id: chime
-        source: "qrc:/qt/qml/FocoApp/assets/chime.wav"
-        volume: appSettings.volume
+    Timer { interval: 5000; repeat: true; running: true; onTriggered: services.beat() }
+    // Wayland drops keep-above whenever a window is hidden, so it is set again on every show.
+    Timer {
+        id: aboveSync
+        interval: 300
+        onTriggered: {
+            if (win.visible) services.keepAbove(win.title, appSettings.alwaysOnTop)
+            if (miniWindow.visible) services.keepAbove(miniWindow.title, true)
+        }
     }
+    Loader {
+        id: chime
+        active: appSettings.sound && !win.muted
+        source: "Chime.qml"
+    }
+    Binding { target: chime.item; property: "volume"; value: appSettings.volume; when: chime.item !== null }
 
     Tray {
         id: tray
         timer: pomodoro
-        onShowRequested: win.bringBack()
+        onShowRequested: { services.track("tray_show"); win.bringBack() }
         onQuitRequested: win.quitRequested()
     }
     SettingsWindow { id: settingsWindow; settings: appSettings }
     MiniWindow {
         id: miniWindow
         timer: pomodoro
-        onExpand: { miniWindow.hide(); win.bringBack() }
+        onExpand: { services.track("mini_expand"); win.bringBack() }
+        onVisibleChanged: aboveSync.restart()
     }
     FileDialog {
         id: exportDialog
@@ -67,15 +88,28 @@ MainWindow {
         fileMode: FileDialog.SaveFile
         defaultSuffix: "csv"
         nameFilters: [qsTr("CSV (*.csv)")]
-        onAccepted: statsStore.exportCsv(selectedFile.toString())
+        onAccepted: { services.track("export"); statsStore.exportCsv(selectedFile.toString()) }
     }
 
+    // Full window and mini mode are exclusive: showing one always hides the other.
     function bringBack() {
+        miniWindow.hide(); uiState.mini = false
         win.show(); win.raise(); win.requestActivate()
     }
+    function showMini() {
+        win.hide(); uiState.mini = true
+        miniWindow.show(); miniWindow.raise()
+    }
 
-    onSettingsRequested: { settingsWindow.show(); settingsWindow.raise(); settingsWindow.requestActivate() }
-    onMiniRequested: { win.hide(); miniWindow.show() }
+    Component.onCompleted: {
+        services.beat()
+        if (uiState.mini) showMini(); else win.show()
+    }
+    onSettingsRequested: {
+        services.track("settings_open")
+        settingsWindow.show(); settingsWindow.raise(); settingsWindow.requestActivate()
+    }
+    onMiniRequested: { services.track("mini"); showMini() }
     onExportRequested: exportDialog.open()
     onQuitRequested: { win.quitting = true; Qt.quit() }
     onHiddenToTray: {
@@ -84,5 +118,6 @@ MainWindow {
         tray.showMessage(qsTr("Foco"), qsTr("Foco sigue en la bandeja. Para cerrarlo del todo, usa Salir."))
     }
     onClosing: if (win.quitting || !appSettings.keepInTray || !tray.available) Qt.quit()
-    onVisibleChanged: if (visible) statsStore.refresh()
+    onVisibleChanged: { if (visible) statsStore.refresh(); aboveSync.restart() }
+    Connections { target: appSettings; function onAlwaysOnTopChanged() { aboveSync.restart() } }
 }

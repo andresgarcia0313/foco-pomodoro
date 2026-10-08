@@ -44,6 +44,7 @@ impl AppSettings {
         store::with(|s| {
             s.data.settings = settings.sanitized();
             s.timer.apply(&s.data.settings);
+            s.track("settings");
             s.save();
         });
         self.as_mut().applied();
@@ -92,7 +93,10 @@ impl SettingsRust {
                 2 => Appearance::System,
                 _ => Appearance::Dracula,
             },
-            language: LANGUAGES.get(self.language_index as usize).unwrap_or(&"").to_string(),
+            language: LANGUAGES
+                .get(self.language_index as usize)
+                .unwrap_or(&"")
+                .to_string(),
             reduce_motion: self.reduce_motion,
         }
     }

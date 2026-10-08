@@ -14,6 +14,7 @@ en Qt 6 con QML (lenguaje declarativo de interfaces de Qt) y la paleta Dracula.
 | Versión | Fecha | Autor | Descripción del cambio |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-10-07 | Andrés García | Primera versión del documento |
+| 0.2.0 | 2026-10-08 | Andrés García | Ajuste de minutos, recuperación automática y registro de uso |
 
 ## Qué hace
 
@@ -24,7 +25,9 @@ en Qt 6 con QML (lenguaje declarativo de interfaces de Qt) y la paleta Dracula.
   comas).
 - Notificaciones nativas, sonido opcional, bandeja del sistema, modo mini siempre encima.
 - Apariencia Drácula (oscura), Alucard (clara) o según el sistema; atajos para todo.
-- Sin cuentas ni red: los datos viven en un archivo local.
+- Añadir o quitar un minuto (botones junto al reloj o teclas + y -).
+- Si se cierra, cae o se congela, vuelve con la misma fase, tiempo y modo de ventana.
+- Sin cuentas ni red: los datos y el registro de uso (máximo 10 MB) viven en archivos locales.
 
 ## Estructura
 

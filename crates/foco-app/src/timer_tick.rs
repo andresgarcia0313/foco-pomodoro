@@ -8,7 +8,16 @@ use std::time::Instant;
 
 impl PomodoroTimer {
     pub fn tick(mut self: Pin<&mut Self>) {
-        if let Some(end) = store::with(|s| s.timer.tick(Instant::now())) {
+        let end = store::with(|s| {
+            let now = Instant::now();
+            if s.timer.forgive_stall(now) {
+                s.track("stall");
+            }
+            let end = s.timer.tick(now);
+            s.save_if_due();
+            end
+        });
+        if let Some(end) = end {
             self.as_mut().complete(end);
         }
         self.sync();
@@ -17,8 +26,13 @@ impl PomodoroTimer {
     fn complete(mut self: Pin<&mut Self>, end: PhaseEnd) {
         let message = store::with(|s| {
             if end.counted {
-                s.record_focus();
+                s.record_focus(end.minutes);
             }
+            s.track(if end.counted {
+                "focus_done"
+            } else {
+                "break_done"
+            });
             s.save();
             let wanted = s.data.settings.notifications;
             wanted.then(|| notify::message(&end, &s.data.settings, s.timer.cycle_done()))
@@ -44,7 +58,14 @@ impl PomodoroTimer {
             };
             // Rounded up: a fresh phase shows 25:00 and 00:00 only appears at the very end.
             let left = t.remaining(now).as_millis().div_ceil(1000);
-            (t.phase().index(), state, t.total().as_secs(), left, t.cycle_length(), t.cycle_done())
+            (
+                t.phase().index(),
+                state,
+                t.total().as_secs(),
+                left,
+                t.cycle_length(),
+                t.cycle_done(),
+            )
         });
         let to_i32 = |v: u128| i32::try_from(v).unwrap_or(i32::MAX);
         self.as_mut().set_phase(view.0);

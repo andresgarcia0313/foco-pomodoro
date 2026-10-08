@@ -15,6 +15,7 @@ impl Timer {
             }
             RunState::Idle | RunState::Paused => {
                 self.started_at = Some(now);
+                self.last_seen = Some(now);
                 self.state = RunState::Running;
             }
         }
@@ -50,6 +51,7 @@ impl Timer {
 
     fn advance(&mut self, now: Instant, completed: bool) -> PhaseEnd {
         let finished = self.phase;
+        let minutes = u32::try_from((self.total.as_secs() + 30) / 60).unwrap_or(u32::MAX);
         let counted = completed && finished == Phase::Focus;
         if counted {
             self.cycle_done += 1;
@@ -68,6 +70,7 @@ impl Timer {
             next,
             counted,
             auto_started,
+            minutes,
         }
     }
 
@@ -77,5 +80,6 @@ impl Timer {
         self.total = phase.duration(&self.settings);
         self.elapsed_before = Duration::ZERO;
         self.started_at = None;
+        self.last_seen = None;
     }
 }

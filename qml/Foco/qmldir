@@ -10,6 +10,7 @@ ComboRow 1.0 ComboRow.qml
 DisclosureButton 1.0 DisclosureButton.qml
 FocusRing 1.0 FocusRing.qml
 IconButton 1.0 IconButton.qml
+StepButton 1.0 StepButton.qml
 Icon 1.0 Icon.qml
 MainWindow 1.0 MainWindow.qml
 MiniView 1.0 MiniView.qml

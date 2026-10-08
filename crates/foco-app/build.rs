@@ -2,7 +2,8 @@ use cxx_qt_build::{CxxQtBuilder, QResource, QResources, QmlModule};
 use qt_build_utils::QResourceFile;
 use std::{fs, path::Path};
 
-const BRIDGES: [&str; 4] = [
+const BRIDGES: [&str; 5] = [
+    "src/services_object.rs",
     "src/timer_object.rs",
     "src/tasks_object.rs",
     "src/stats_object.rs",
@@ -14,11 +15,11 @@ fn main() {
     let interface = interface.canonicalize().expect("qml/Foco exists");
     println!("cargo:rerun-if-changed={}", interface.display());
 
-    CxxQtBuilder::new_qml_module(
-        QmlModule::new("FocoApp")
-            .version(1, 0)
-            .qml_files(["qml/Main.qml", "qml/Tray.qml"]),
-    )
+    CxxQtBuilder::new_qml_module(QmlModule::new("FocoApp").version(1, 0).qml_files([
+        "qml/Main.qml",
+        "qml/Tray.qml",
+        "qml/Chime.qml",
+    ]))
     .files(BRIDGES)
     .qt_module("Quick")
     .qt_module("QuickControls2")
@@ -43,7 +44,11 @@ fn interface_module(dir: &Path) -> QResource {
             let name = path.file_name().unwrap().to_string_lossy().into_owned();
             let wanted = name == "qmldir" || name.ends_with(".qml") || name.ends_with(".svg");
             if path.is_file() && wanted {
-                let alias = if sub.is_empty() { name } else { format!("{sub}/{name}") };
+                let alias = if sub.is_empty() {
+                    name
+                } else {
+                    format!("{sub}/{name}")
+                };
                 files.push(QResourceFile::new(&path).alias(alias));
             }
         }

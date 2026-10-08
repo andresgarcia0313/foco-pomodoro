@@ -16,7 +16,10 @@ pub fn message(end: &PhaseEnd, s: &Settings, cycle_done: u32) -> Message {
     let (title, body, action) = match end.finished {
         Phase::Focus => {
             let rest = end.next.duration(s).as_secs() / 60;
-            let body = format!("Llevas {cycle_done} de {}. Toca descansar {rest} min.", s.long_break_every);
+            let body = format!(
+                "Llevas {cycle_done} de {}. Toca descansar {rest} min.",
+                s.long_break_every
+            );
             ("Enfoque terminado", body, "Iniciar descanso")
         }
         Phase::ShortBreak => {
@@ -39,7 +42,9 @@ pub fn message(end: &PhaseEnd, s: &Settings, cycle_done: u32) -> Message {
 pub fn show(message: Message, start_next: impl FnOnce() + Send + 'static) {
     std::thread::spawn(move || {
         let mut n = notify_rust::Notification::new();
-        n.appname("Foco").summary(&message.title).body(&message.body);
+        n.appname("Foco")
+            .summary(&message.title)
+            .body(&message.body);
         #[cfg(all(unix, not(target_os = "macos")))]
         {
             // The app plays its own chime when sound is on.

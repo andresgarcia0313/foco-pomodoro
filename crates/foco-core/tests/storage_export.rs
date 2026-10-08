@@ -46,15 +46,17 @@ fn unknown_or_missing_fields_fall_back_to_defaults() {
 }
 
 #[test]
-fn snapshot_restores_paused_with_same_remaining_time() {
+fn snapshot_restores_running_with_same_remaining_time() {
     let t0 = Instant::now();
     let mut t = Timer::new(&Settings::default());
     t.toggle(t0);
     let snap = t.snapshot(t0 + Duration::from_secs(600)).unwrap();
-    let back = Timer::restore(&Settings::default(), snap);
+    t.toggle(t0 + Duration::from_secs(600));
+    let now = Instant::now();
+    let back = Timer::restore(&Settings::default(), snap, now);
     assert_eq!(back.phase(), Phase::Focus);
-    assert_eq!(back.state(), RunState::Paused);
-    assert_eq!(back.remaining(Instant::now()), Duration::from_secs(900));
+    assert_eq!(back.state(), RunState::Running);
+    assert_eq!(back.remaining(now), Duration::from_secs(900));
     assert!(Timer::new(&Settings::default()).snapshot(t0).is_none());
 }
 

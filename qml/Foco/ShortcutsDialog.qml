@@ -8,6 +8,7 @@ ThemedDialog {
     readonly property var rows: [
         [qsTr("Iniciar o pausar"), qsTr("Espacio")],
         [qsTr("Reiniciar fase"), "Ctrl+R"],
+        [qsTr("Añadir o quitar un minuto"), "+ · -"],
         [qsTr("Saltar fase"), "Ctrl+Shift+S"],
         [qsTr("Ir a Temporizador, Tareas, Estadísticas"), "Ctrl+1 · 2 · 3"],
         [qsTr("Nueva tarea"), "Ctrl+N"],

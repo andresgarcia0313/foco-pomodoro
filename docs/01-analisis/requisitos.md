@@ -1,7 +1,7 @@
 ---
 lang: es-CO
 título: Foco - Especificación de requisitos
-versión: 1.0.0
+versión: 1.1.0
 ---
 
 # Foco - Especificación de requisitos
@@ -11,6 +11,7 @@ versión: 1.0.0
 | Versión | Fecha | Autor | Descripción del cambio |
 | --- | --- | --- | --- |
 | 1.0.0 | 2026-10-07 | Andrés García | Versión inicial: visión, actores, requisitos, casos de uso y riesgos |
+| 1.1.0 | 2026-10-08 | Andrés García | RF-13 ampliado a caídas y congelamientos; nuevos RF-16 y RF-17; RNF-08 con recuperación automática |
 
 ## 1. Visión
 
@@ -45,9 +46,11 @@ con la nube y no pide cuenta.
 | RF-10 | Ajustes: duraciones, intervalo del descanso largo, inicio automático de descansos y de enfoques, sonido, notificaciones, siempre encima, apariencia (Sistema, Drácula, Alucard) e idioma | Debe |
 | RF-11 | Atajos de teclado para todas las acciones frecuentes | Debe |
 | RF-12 | Modo mini: ventana compacta con tiempo y botón principal, opcionalmente siempre encima | Debería |
-| RF-13 | Recuperar la sesión al reabrir si la aplicación se cerró con una fase en curso | Debería |
+| RF-13 | Al reabrir, tras cierre, caída o congelamiento, la fase sigue con el mismo tiempo restante y en el mismo estado (corriendo o en pausa), con el mismo modo de ventana y tamaño | Debe |
 | RF-14 | Exportar el historial a CSV (valores separados por comas) | Podría |
 | RF-15 | Cuentas, sincronización en la nube, versión móvil | No hará |
+| RF-16 | Añadir o quitar un minuto a la fase en curso, con botón (mantener pulsado repite) y con las teclas + y - | Debe |
+| RF-17 | Registro local de uso (conteo diario de cada función) que guía las mejoras de la interfaz; nunca sale del equipo ni pasa de 10 MB | Debe |
 
 ## 4. Requisitos no funcionales
 
@@ -60,7 +63,7 @@ con la nube y no pide cuenta.
 | RNF-05 | Internacionalización | Todo texto visible pasa por el sistema de traducción de Qt; español (es-CO) por defecto e inglés |
 | RNF-06 | Privacidad | Sin conexiones de red; datos solo en la carpeta de configuración del usuario |
 | RNF-07 | Mantenibilidad | Núcleo en Rust sin dependencia de Qt, con cobertura de pruebas del 90 % o más; archivos de código de 100 líneas o menos |
-| RNF-08 | Robustez | Un archivo de datos dañado no impide arrancar: se respalda y se crea uno nuevo |
+| RNF-08 | Robustez | Un archivo de datos dañado no impide arrancar: se respalda y se crea uno nuevo. Una caída o un cuelgue de más de 45 s reinician la interfaz sola; se pierden como máximo 15 s de avance |
 
 ## 5. Casos de uso principales
 

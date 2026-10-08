@@ -12,6 +12,8 @@ Item {
 
     Shortcut { sequence: "Space"; enabled: !keys.typing; onActivated: keys.timer.toggle() }
     Shortcut { sequence: "Ctrl+R"; onActivated: keys.timer.reset() }
+    Shortcut { sequences: ["+", "="]; enabled: !keys.typing; onActivated: keys.timer.adjust(1) }
+    Shortcut { sequence: "-"; enabled: !keys.typing; onActivated: keys.timer.adjust(-1) }
     Shortcut { sequence: "Ctrl+Shift+S"; onActivated: keys.timer.skip() }
     Shortcut { sequence: "Ctrl+1"; onActivated: keys.shell.section = 0 }
     Shortcut { sequence: "Ctrl+2"; onActivated: keys.shell.section = 1 }

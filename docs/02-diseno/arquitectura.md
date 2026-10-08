@@ -1,7 +1,7 @@
 ---
 lang: es-CO
 título: Foco - Diseño de arquitectura
-versión: 1.0.0
+versión: 1.1.0
 ---
 
 # Foco - Diseño de arquitectura
@@ -11,6 +11,7 @@ versión: 1.0.0
 | Versión | Fecha | Autor | Descripción del cambio |
 | --- | --- | --- | --- |
 | 1.0.0 | 2026-10-07 | Andrés García | Vista de componentes, máquina de estados, datos, decisiones y trazabilidad |
+| 1.1.0 | 2026-10-08 | Andrés García | Supervisor de proceso, guardián de congelamiento, registro de uso y siempre visible en KDE Wayland |
 
 ## 1. Vista general
 
@@ -66,7 +67,11 @@ en macOS):
 | `settings` | Duraciones, automatismos, avisos, ventana, apariencia, idioma |
 | `tasks` | Lista, siguiente identificador y tarea activa |
 | `history` | Enfoques completados: fecha y hora local de fin, minutos y título de la tarea |
-| `session` | Fase en curso al cerrar: fase, segundos restantes, ciclo (RF-13) |
+| `session` | Fase en curso: fase, segundos restantes, duración con ajustes, si corría y ciclo; se guarda en cada acción y cada 15 s mientras corre (RF-13) |
+
+Junto a él, `uso.json` guarda el conteo diario de cada función (RF-17), con tope de 10 MB que
+descarta primero los días más antiguos, e `interfaz.ini` guarda el modo mini y el tamaño de la
+ventana.
 
 Escritura atómica (archivo temporal y renombrado). Un archivo dañado se renombra a
 `foco.corrupt-<fecha>.json` y la aplicación arranca con valores por defecto (RNF-08). Campos
@@ -86,6 +91,10 @@ esquema sin migraciones.
 | DA-07 | Código compatible con Qt 6.10; versiones publicadas con Qt 6.12.0 | Solo 6.12: rompería la compilación con los paquetes de Kubuntu 26.04 |
 | DA-08 | Plurales con dos textos traducibles | `%n` de `qsTr`: muestra "(s)" sin archivo de traducción del idioma fuente |
 | DA-09 | Apariencia Drácula por defecto con opción Sistema o Alucard | Solo seguir al sistema (pauta de Apple): perdería la identidad pedida; queda documentado |
+| DA-10 | Proceso supervisor: el mismo binario lanza la interfaz como hijo y la reinicia si cae o deja de latir 45 s (máximo 5 veces en 10 min) | Servicio de systemd: solo Linux; sin supervisor: un fallo deja la app cerrada |
+| DA-11 | Guardián de congelamiento: un hueco de más de 10 s entre pulsos no cuenta como tiempo de la fase | Contar el hueco: un congelamiento de horas terminaba y contaba el enfoque sin haberlo hecho |
+| DA-12 | Siempre visible en KDE Wayland con un guion de KWin por D-Bus (`keepAbove`, filtrado por proceso y título) | Indicación de Qt: Wayland la ignora por diseño; capa de LayerShellQt: la ventana deja de ser normal (sin bordes ni barra de tareas) |
+| DA-13 | Sonido cargado bajo demanda (`Loader`) | Cargarlo siempre: Qt Multimedia arrastra FFmpeg y controladores de vídeo aunque esté en silencio |
 
 ## 5. Trazabilidad
 
@@ -100,6 +109,8 @@ esquema sin migraciones.
 | RF-09, RNF-08 | `foco-core/src/storage.rs` | `tests/storage_export.rs` |
 | RF-10, RF-11 | `SettingsPage.qml`, `WindowShortcuts.qml` | Galería 14, criterios de `especificacion-ui-ux.md` |
 | RF-12 | `MiniView.qml` | Galería 16 y 17 |
-| RF-13 | `foco-core/src/timer/snapshot.rs` | `tests/storage_export.rs` |
+| RF-13, RNF-08 | `foco-core/src/timer/snapshot.rs`, `timer/guard.rs`, `foco-app/src/supervisor.rs` | `tests/time_guard.rs`, `tests/storage_export.rs`, prueba de integración de caída y cuelgue |
+| RF-16 | `Timer::adjust`, `StepButton.qml` | `tests/time_guard.rs` |
+| RF-17 | `foco-core/src/usage.rs`, `store.rs` | `tests/time_guard.rs` |
 | RF-14 | `foco-core/src/export.rs` | `tests/storage_export.rs` |
 | RNF-04 | Tokens con contraste medido | `revision-diseno.md` |

@@ -3,7 +3,7 @@
 
 use crate::store;
 use core::pin::Pin;
-use foco_core::timer::{Phase, Timer};
+use foco_core::timer::{Phase, RunState, Timer};
 use std::time::Instant;
 
 #[cxx_qt::bridge]
@@ -33,6 +33,9 @@ pub mod qobject {
         #[qinvokable]
         #[cxx_name = "selectPhase"]
         fn select_phase(self: Pin<&mut PomodoroTimer>, phase: i32);
+        /// Adds or removes whole minutes from the phase in progress.
+        #[qinvokable]
+        fn adjust(self: Pin<&mut PomodoroTimer>, minutes: i32);
         #[qinvokable]
         fn tick(self: Pin<&mut PomodoroTimer>);
         #[qinvokable]
@@ -60,30 +63,44 @@ impl cxx_qt::Initialize for qobject::PomodoroTimer {
 }
 
 impl qobject::PomodoroTimer {
-    fn act(self: Pin<&mut Self>, change: impl FnOnce(&mut Timer)) {
+    /// Every action skips a stall first, applies the change, counts it and saves at once.
+    fn act(self: Pin<&mut Self>, event: &str, change: impl FnOnce(&mut Timer, Instant)) {
         store::with(|s| {
-            change(&mut s.timer);
+            let now = Instant::now();
+            if s.timer.forgive_stall(now) {
+                s.track("stall");
+            }
+            change(&mut s.timer, now);
+            s.track(event);
             s.save();
         });
         self.sync();
     }
 
     pub fn toggle(self: Pin<&mut Self>) {
-        self.act(|t| t.toggle(Instant::now()));
+        let running = store::with(|s| s.timer.state() == RunState::Running);
+        self.act(if running { "pause" } else { "start" }, Timer::toggle);
     }
 
     pub fn reset(self: Pin<&mut Self>) {
-        self.act(Timer::reset);
+        self.act("reset", |t, _| t.reset());
     }
 
     /// Skipping never counts the focus and never notifies.
     pub fn skip(self: Pin<&mut Self>) {
-        self.act(|t| {
-            t.skip(Instant::now());
+        self.act("skip", |t, now| {
+            t.skip(now);
         });
     }
 
     pub fn select_phase(self: Pin<&mut Self>, phase: i32) {
-        self.act(|t| t.select_phase(Phase::from_index(phase)));
+        self.act("select_phase", |t, _| {
+            t.select_phase(Phase::from_index(phase))
+        });
+    }
+
+    pub fn adjust(self: Pin<&mut Self>, minutes: i32) {
+        let event = if minutes > 0 { "adjust+" } else { "adjust-" };
+        self.act(event, |t, now| t.adjust(now, minutes));
     }
 }

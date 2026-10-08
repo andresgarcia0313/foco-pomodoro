@@ -51,15 +51,20 @@ pub fn load(path: &Path) -> (AppData, LoadOutcome) {
 }
 
 pub fn save(path: &Path, data: &AppData) -> io::Result<()> {
-    if let Some(dir) = path.parent() {
-        fs::create_dir_all(dir)?;
-    }
-    let tmp = path.with_extension("json.tmp");
     let json = serde_json::to_string_pretty(&AppData {
         version: 1,
         ..data.clone()
     })
     .map_err(io::Error::other)?;
-    fs::write(&tmp, json)?;
+    write_atomic(path, &json)
+}
+
+/// Temp file + rename: a crash mid-write never leaves a half-written file.
+pub fn write_atomic(path: &Path, text: &str) -> io::Result<()> {
+    if let Some(dir) = path.parent() {
+        fs::create_dir_all(dir)?;
+    }
+    let tmp = path.with_extension("tmp");
+    fs::write(&tmp, text)?;
     fs::rename(&tmp, path)
 }

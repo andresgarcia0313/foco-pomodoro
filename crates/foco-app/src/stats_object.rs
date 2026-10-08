@@ -47,7 +47,15 @@ pub struct StatsRust {
 }
 
 const INITIALS: [&str; 7] = ["L", "M", "M", "J", "V", "S", "D"];
-const NAMES: [&str; 7] = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
+const NAMES: [&str; 7] = [
+    "lunes",
+    "martes",
+    "miércoles",
+    "jueves",
+    "viernes",
+    "sábado",
+    "domingo",
+];
 
 impl cxx_qt::Initialize for qobject::StatsStore {
     fn initialize(self: Pin<&mut Self>) {
@@ -58,7 +66,8 @@ impl cxx_qt::Initialize for qobject::StatsStore {
 impl qobject::StatsStore {
     pub fn refresh(mut self: Pin<&mut Self>) {
         let today = chrono::Local::now().date_naive();
-        let (days, streak) = store::with(|s| (s.data.history.week(today), s.data.history.streak(today)));
+        let (days, streak) =
+            store::with(|s| (s.data.history.week(today), s.data.history.streak(today)));
         let total = |f: fn(&foco_core::stats::DayTotal) -> u32| days.iter().map(f).sum::<u32>();
         let (week_count, week_minutes) = (total(|d| d.count), total(|d| d.minutes));
         let week = qv::array(days.iter().map(|d| {
@@ -73,8 +82,10 @@ impl qobject::StatsStore {
         }));
         let last = days.last().copied();
         let int = |v: u32| i32::try_from(v).unwrap_or(i32::MAX);
-        self.as_mut().set_today_count(last.map_or(0, |d| int(d.count)));
-        self.as_mut().set_today_minutes(last.map_or(0, |d| int(d.minutes)));
+        self.as_mut()
+            .set_today_count(last.map_or(0, |d| int(d.count)));
+        self.as_mut()
+            .set_today_minutes(last.map_or(0, |d| int(d.minutes)));
         self.as_mut().set_streak(int(streak));
         self.as_mut().set_week_count(int(week_count));
         self.as_mut().set_week_minutes(int(week_minutes));

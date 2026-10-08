@@ -12,4 +12,6 @@ Window {
     color: Theme.base
     MiniView { anchors.fill: parent; timer: win.timer; onExpand: win.expand() }
     Shortcut { sequence: "Space"; onActivated: win.timer.toggle() }
+    Shortcut { sequences: ["+", "="]; onActivated: win.timer.adjust(1) }
+    Shortcut { sequence: "-"; onActivated: win.timer.adjust(-1) }
 }

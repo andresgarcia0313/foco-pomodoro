@@ -6,9 +6,10 @@ use cxx_qt_lib::QString;
 use foco_core::tasks::TaskList;
 
 impl TaskStore {
-    fn change(self: Pin<&mut Self>, edit: impl FnOnce(&mut TaskList)) {
+    fn change(self: Pin<&mut Self>, event: &str, edit: impl FnOnce(&mut TaskList)) {
         store::with(|s| {
             edit(&mut s.data.tasks);
+            s.track(event);
             s.save();
         });
         self.refresh();
@@ -16,31 +17,31 @@ impl TaskStore {
 
     pub fn add(self: Pin<&mut Self>, title: &QString, estimate: i32) {
         let estimate = u32::try_from(estimate).unwrap_or(1);
-        self.change(|t| {
+        self.change("task_add", |t| {
             t.add(&title.to_string(), estimate);
         });
     }
 
     pub fn toggle_completed(self: Pin<&mut Self>, id: i32) {
-        self.change(|t| t.toggle_completed(id as u64));
+        self.change("task_toggle", |t| t.toggle_completed(id as u64));
     }
 
     pub fn remove(self: Pin<&mut Self>, id: i32) {
-        self.change(|t| {
+        self.change("task_remove", |t| {
             t.remove(id as u64);
         });
     }
 
     pub fn undo_remove(self: Pin<&mut Self>) {
-        self.change(TaskList::undo_remove);
+        self.change("task_undo", TaskList::undo_remove);
     }
 
     pub fn commit_remove(self: Pin<&mut Self>) {
-        self.change(TaskList::commit_remove);
+        self.change("task_commit", TaskList::commit_remove);
     }
 
     pub fn set_active(self: Pin<&mut Self>, id: i32) {
-        self.change(|t| t.set_active(id as u64));
+        self.change("task_active", |t| t.set_active(id as u64));
     }
 
     pub fn refresh(mut self: Pin<&mut Self>) {

@@ -1,12 +1,17 @@
 //! Foco: Pomodoro timer for the desktop. Rust owns the state; QML draws it.
 
+mod kwin;
 mod notify;
 mod qvariant;
+mod services_object;
 mod settings_object;
 mod settings_sync;
 mod stats_object;
 mod store;
+mod supervisor;
 mod tasks_actions;
+// `newRequested` is emitted from QML only, so Rust never calls its generated method.
+#[allow(dead_code)]
 mod tasks_object;
 mod timer_object;
 mod timer_tick;
@@ -20,7 +25,18 @@ unsafe extern "C" {
 }
 
 fn main() {
+    if let Some(code) = supervisor::run() {
+        std::process::exit(code);
+    }
     store::init();
+    store::with(|s| {
+        s.track(if supervisor::restarted() {
+            "crash_restart"
+        } else {
+            "launch"
+        });
+        s.save();
+    });
 
     // Qt keeps pointers to argv for the whole run, so these live until main returns.
     let args: Vec<CString> = std::env::args()

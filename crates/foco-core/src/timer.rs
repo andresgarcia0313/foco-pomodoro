@@ -5,8 +5,10 @@ use crate::settings::Settings;
 use std::time::{Duration, Instant};
 
 mod control;
+mod guard;
 mod phase;
 mod snapshot;
+pub use guard::{MAX_PHASE, STALL};
 pub use phase::{Phase, PhaseEnd, RunState};
 pub use snapshot::Snapshot;
 
@@ -18,6 +20,8 @@ pub struct Timer {
     total: Duration,
     elapsed_before: Duration,
     started_at: Option<Instant>,
+    /// Last moment the running phase was observed; see `forgive_stall`.
+    last_seen: Option<Instant>,
     cycle_done: u32,
 }
 
@@ -32,6 +36,7 @@ impl Timer {
             total,
             elapsed_before: Duration::ZERO,
             started_at: None,
+            last_seen: None,
             cycle_done: 0,
         }
     }
