@@ -22,7 +22,10 @@ fn run_script(title: &str, on: bool) -> Result<(), Box<dyn std::error::Error>> {
     const SCRIPTING: Option<&str> = Some("org.kde.kwin.Scripting");
     let pid = std::process::id();
     let name = format!("foco-above-{pid}");
-    let path = std::env::temp_dir().join(format!("{name}.js"));
+    // Private per-user folder (0700): a shared /tmp would let another user plant the script.
+    let path = dirs::runtime_dir()
+        .ok_or("sin XDG_RUNTIME_DIR")?
+        .join(format!("{name}.js"));
     std::fs::write(
         &path,
         format!(
