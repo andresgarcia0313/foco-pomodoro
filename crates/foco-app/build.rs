@@ -21,6 +21,8 @@ fn main() {
         "qml/Chime.qml",
     ]))
     .files(BRIDGES)
+    // Linux and macOS pull QtGui in through QtQuick; the MSVC linker needs it named.
+    .qt_module("Gui")
     .qt_module("Quick")
     .qt_module("QuickControls2")
     .qt_module("Widgets")

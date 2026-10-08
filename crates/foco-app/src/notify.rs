@@ -64,7 +64,8 @@ pub fn show(message: Message, start_next: impl FnOnce() + Send + 'static) {
         }
         #[cfg(not(all(unix, not(target_os = "macos"))))]
         {
-            let _ = start_next;
+            // Actions need the freedesktop service; elsewhere the plain notice is enough.
+            let _ = (start_next, message.action);
             if let Err(err) = n.show() {
                 eprintln!("foco: notificación no mostrada: {err}");
             }
