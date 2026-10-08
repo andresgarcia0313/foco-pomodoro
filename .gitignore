@@ -7,3 +7,4 @@ target/
 aqtinstall.log
 .memsearch/
 /target-build-app.log
+.qmlls.ini
