@@ -19,6 +19,8 @@ MinutesRow 1.0 MinutesRow.qml
 NavBar 1.0 NavBar.qml
 NavTab 1.0 NavTab.qml
 PhaseRing 1.0 PhaseRing.qml
+SmoothShape 1.0 SmoothShape.qml
+Digits 1.0 Digits.qml
 PhaseSelector 1.0 PhaseSelector.qml
 PrimaryButton 1.0 PrimaryButton.qml
 SettingGroup 1.0 SettingGroup.qml

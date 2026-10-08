@@ -19,9 +19,8 @@ Item {
 
     Accessible.role: Accessible.ProgressBar
 
-    Shape {
+    SmoothShape {
         anchors.fill: parent
-        preferredRendererType: Shape.CurveRenderer
 
         ShapePath { // track
             strokeColor: Theme.selected
@@ -49,10 +48,9 @@ Item {
 
     Repeater { // cycle segments
         model: ring.cycleLength
-        delegate: Shape {
+        delegate: SmoothShape {
             required property int index
             anchors.fill: parent
-            preferredRendererType: Shape.CurveRenderer
             readonly property real gap: 6
             readonly property real span: 360 / ring.cycleLength
             ShapePath {

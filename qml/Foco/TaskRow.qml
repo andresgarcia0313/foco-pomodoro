@@ -35,11 +35,10 @@ ItemDelegate {
             font.strikeout: row.task.completed
             font.pointSize: Theme.body
         }
-        Text {
+        Digits {
             text: qsTr("%1/%2").arg(row.task.done).arg(row.task.estimate)
             color: Theme.textMuted
             font.pointSize: Theme.caption
-            font.features: { "tnum": 1 }
         }
         IconButton {
             iconName: "trash-2"

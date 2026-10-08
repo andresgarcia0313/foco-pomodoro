@@ -7,7 +7,7 @@ ColumnLayout {
     id: face
     required property QtObject timer
     spacing: 0
-    Text {
+    Digits {
         Layout.fillWidth: true
         horizontalAlignment: Text.AlignHCenter
         Layout.preferredHeight: face.width * 0.42
@@ -18,7 +18,6 @@ ColumnLayout {
         color: face.timer.state === 2 ? Theme.textMuted : Theme.text
         font.pointSize: Theme.display
         font.weight: Font.Medium
-        font.features: { "tnum": 1 }
     }
     RowLayout {
         Layout.fillWidth: true

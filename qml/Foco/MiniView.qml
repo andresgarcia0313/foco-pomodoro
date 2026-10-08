@@ -20,12 +20,11 @@ Rectangle {
         ColumnLayout {
             Layout.fillWidth: true
             spacing: 0
-            Text {
+            Digits {
                 text: Phases.clock(mini.timer.remainingSeconds)
                 color: mini.timer.state === 2 ? Theme.textMuted : Theme.text
                 font.pointSize: Theme.displayMini
                 font.weight: Font.Medium
-                font.features: { "tnum": 1 }
             }
             Text {
                 text: mini.timer.state === 2 ? qsTr("En pausa") : Phases.name(mini.timer.phase)
