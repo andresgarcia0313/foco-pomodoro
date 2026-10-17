@@ -2,8 +2,8 @@
 // pins them through KWin, see kwin.rs). Windows are matched by title, as KWin matches them.
 // - macOS: each window joins every Space, also those of full-screen apps. Qt has no flag for
 //   it; the Objective-C runtime reaches the NSWindow behind the window when it is shown.
-// - Windows: every second, a window left on another desktop moves to the one in use, through
-//   IVirtualDesktopManager, the documented interface.
+// - Windows: every second, IVirtualDesktopManager (the documented interface) tells whether a
+//   window was left on another desktop; it is then created again on the one in use.
 #include <QtCore/QTimer>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QWindow>
@@ -47,7 +47,6 @@ void foco_all_desktops(QGuiApplication *app) { app->installEventFilter(new Break
 #include <shobjidl.h>
 #include <windows.h>
 #pragma comment(lib, "ole32.lib")
-#pragma comment(lib, "user32.lib")
 
 namespace {
 IVirtualDesktopManager *desktops() {
@@ -71,16 +70,9 @@ bool on_current_desktop(QWindow *window) {
 void follow_desktop() {
     for (QWindow *window : QGuiApplication::topLevelWindows()) {
         if (!window->isVisible() || !is_break(window) || on_current_desktop(window)) continue;
-        // The desktop in use is the one of the window in front, unless that window shares the
-        // break's desktop (often the break itself is still in front); else show it again.
-        GUID desktop{}, own{};
-        auto hwnd = reinterpret_cast<HWND>(window->winId());
-        HWND front = GetForegroundWindow();
-        if (front && SUCCEEDED(desktops()->GetWindowDesktopId(front, &desktop)) &&
-            SUCCEEDED(desktops()->GetWindowDesktopId(hwnd, &own)) && desktop != GUID{} &&
-            desktop != own && SUCCEEDED(desktops()->MoveWindowToDesktop(hwnd, desktop)))
-            continue;
-        window->hide();
+        // Windows remembers the desktop of a window, also hidden: a new native window opens on
+        // the desktop in use, so the old one is destroyed and cover() creates it again.
+        window->destroy();
         QMetaObject::invokeMethod(window, "cover");  // BreakWindow.qml, back on its screen
     }
 }
