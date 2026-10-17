@@ -37,11 +37,12 @@ Rectangle {
             color: view.phaseColor
             font.pointSize: Theme.title
             font.weight: Font.DemiBold
-            visible: view.questions && view.step !== "rest"
+            // Screens without questions say the break is over instead of showing an idle clock.
+            visible: view.questions ? view.step !== "rest" : !view.resting
         }
         BreakCountdown {
             Layout.fillWidth: true
-            visible: !view.questions || view.step === "rest"
+            visible: view.resting && (!view.questions || view.step === "rest")
             timer: view.timer
             color: view.phaseColor
             ringSize: Math.min(view.height * 0.5, 420)
@@ -51,6 +52,7 @@ Rectangle {
             id: question
             Layout.fillWidth: true
             active: view.questions && view.step !== "rest"
+            visible: active
             sourceComponent: view.step === "review" ? review : next
         }
     }

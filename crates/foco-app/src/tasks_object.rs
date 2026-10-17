@@ -25,8 +25,9 @@ pub mod qobject {
         #[cxx_name = "newRequested"]
         fn new_requested(self: Pin<&mut TaskStore>);
 
+        /// Returns the new task id, or 0 for an empty title.
         #[qinvokable]
-        fn add(self: Pin<&mut TaskStore>, title: &QString, estimate: i32);
+        fn add(self: Pin<&mut TaskStore>, title: &QString, estimate: i32) -> i32;
         #[qinvokable]
         #[cxx_name = "toggleCompleted"]
         fn toggle_completed(self: Pin<&mut TaskStore>, id: i32);
@@ -42,6 +43,9 @@ pub mod qobject {
         #[qinvokable]
         #[cxx_name = "setActive"]
         fn set_active(self: Pin<&mut TaskStore>, id: i32);
+        /// Break screen: the last focus went to task `id`, not necessarily the proposed one.
+        #[qinvokable]
+        fn recredit(self: Pin<&mut TaskStore>, id: i32);
         #[qinvokable]
         fn refresh(self: Pin<&mut TaskStore>);
     }

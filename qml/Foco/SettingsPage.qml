@@ -37,6 +37,9 @@ Rectangle {
                 SwitchRow { label: qsTr("Iniciar enfoques automáticamente")
                             checked: page.settings.autoStartFocus
                             onToggled: page.settings.autoStartFocus = checked }
+                SwitchRow { label: qsTr("Pantalla completa en los descansos")
+                            checked: page.settings.breakScreen
+                            onToggled: page.settings.breakScreen = checked }
             }
             SettingGroup {
                 Layout.leftMargin: Theme.s5; Layout.rightMargin: Theme.s5

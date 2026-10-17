@@ -15,11 +15,23 @@ impl TaskStore {
         self.refresh();
     }
 
-    pub fn add(self: Pin<&mut Self>, title: &QString, estimate: i32) {
+    pub fn add(self: Pin<&mut Self>, title: &QString, estimate: i32) -> i32 {
         let estimate = u32::try_from(estimate).unwrap_or(1);
-        self.change("task_add", |t| {
-            t.add(&title.to_string(), estimate);
+        let mut id = None;
+        self.change("task_add", |t| id = t.add(&title.to_string(), estimate));
+        id.map_or(0, |id| id as i32)
+    }
+
+    /// Moves the credit and renames the focus in the history, so Statistics agree.
+    pub fn recredit(self: Pin<&mut Self>, id: i32) {
+        store::with(|s| {
+            if let Some(title) = s.data.tasks.recredit(id as u64) {
+                s.data.history.retitle_last(title);
+            }
+            s.track("focus_recredit");
+            s.save();
         });
+        self.refresh();
     }
 
     pub fn toggle_completed(self: Pin<&mut Self>, id: i32) {

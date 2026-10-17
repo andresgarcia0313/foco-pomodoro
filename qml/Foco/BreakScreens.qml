@@ -28,9 +28,10 @@ Instantiator {
         tasks: screens.tasks
         step: screens.step
         questions: modelData.name === screens.home.name
-        onReviewed: id => { screens.step = "rest"; screens.reviewed(id) }
-        onContinued: id => { screens.close(); screens.continued(id) }
-        onCloseRequested: screens.close()
+        // Signal first, then change the screens: changing them destroys the sender.
+        onReviewed: id => { screens.reviewed(id); Qt.callLater(() => screens.step = "rest") }
+        onContinued: id => { screens.continued(id); Qt.callLater(() => screens.shown = false) }
+        onCloseRequested: Qt.callLater(screens.close)
         onPlaced: screens.covered(title, screenName, questions)
         Component.onCompleted: cover()
     }

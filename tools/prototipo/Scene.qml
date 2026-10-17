@@ -33,10 +33,14 @@ Item {
     Loader {
         anchors.fill: parent
         sourceComponent: scene.config.kind === "settings" ? settingsPage
-                       : scene.config.kind === "mini" ? miniView : shell
+                       : scene.config.kind === "mini" ? miniView
+                       : scene.config.kind === "break" ? breakView : shell
     }
     Component { id: shell
         AppShell { timer: mockTimer; tasks: mockTasks; stats: mockStats; section: scene.config.section ?? 0 } }
     Component { id: settingsPage; SettingsPage { settings: mockSettings } }
     Component { id: miniView; MiniView { timer: mockTimer } }
+    Component { id: breakView
+        BreakView { timer: mockTimer; tasks: mockTasks; step: scene.config.step ?? "rest"
+                    questions: scene.config.questions ?? true } }
 }

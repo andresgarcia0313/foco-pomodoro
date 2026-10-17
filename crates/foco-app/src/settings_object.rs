@@ -12,6 +12,7 @@ pub mod qobject {
         #[qproperty(i32, long_break_every, cxx_name = "longBreakEvery")]
         #[qproperty(bool, auto_start_breaks, cxx_name = "autoStartBreaks")]
         #[qproperty(bool, auto_start_focus, cxx_name = "autoStartFocus")]
+        #[qproperty(bool, break_screen, cxx_name = "breakScreen")]
         #[qproperty(bool, notifications)]
         #[qproperty(bool, sound)]
         #[qproperty(f64, volume)]
@@ -37,6 +38,7 @@ pub struct SettingsRust {
     pub(crate) long_break_every: i32,
     pub(crate) auto_start_breaks: bool,
     pub(crate) auto_start_focus: bool,
+    pub(crate) break_screen: bool,
     pub(crate) notifications: bool,
     pub(crate) sound: bool,
     pub(crate) volume: f64,

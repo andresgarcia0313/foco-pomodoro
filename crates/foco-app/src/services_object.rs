@@ -25,6 +25,9 @@ pub mod qobject {
         #[qinvokable]
         #[cxx_name = "keepAbove"]
         fn keep_above(self: &AppServices, title: &QString, on: bool);
+        /// Break screen: full screen and above all on the named screen (KDE Wayland only).
+        #[qinvokable]
+        fn cover(self: &AppServices, title: &QString, screen: &QString, focus: bool);
         /// The event loop is alive; the supervisor restarts the app when beats stop.
         #[qinvokable]
         fn beat(self: &AppServices);
@@ -52,6 +55,10 @@ impl qobject::AppServices {
 
     pub fn keep_above(&self, title: &QString, on: bool) {
         kwin::keep_above(title.to_string(), on);
+    }
+
+    pub fn cover(&self, title: &QString, screen: &QString, focus: bool) {
+        kwin::cover(title.to_string(), screen.to_string(), focus);
     }
 
     pub fn beat(&self) {

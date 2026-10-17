@@ -7,6 +7,7 @@ QtObject {
     property int longBreakEvery: 4
     property bool autoStartBreaks: false
     property bool autoStartFocus: true
+    property bool breakScreen: true
     property bool notifications: true
     property bool sound: true
     property real volume: 0.6

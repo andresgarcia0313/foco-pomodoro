@@ -41,7 +41,29 @@ MainWindow {
         function onPhaseEnded(finished, next, counted) {
             if (counted) { taskStore.refresh(); statsStore.refresh() }
             if (chime.item) chime.item.play()
+            if (!appSettings.breakScreen) return
+            if (counted) {
+                // The break the screen shows is the one configured, so it starts right away.
+                if (pomodoro.state === 0) pomodoro.toggle()
+                breaks.open("review")
+            } else if (finished !== 0) {
+                breaks.open("next")
+            }
         }
+    }
+    BreakScreens {
+        id: breaks
+        timer: pomodoro
+        tasks: taskStore
+        home: win.screen
+        onReviewed: id => { services.track("break_review"); taskStore.recredit(id); statsStore.refresh() }
+        onContinued: id => {
+            services.track("break_continue")
+            taskStore.setActive(id)
+            if (pomodoro.phase === 0 && pomodoro.state !== 1) pomodoro.toggle()
+        }
+        onClosed: services.track("break_close")
+        onCovered: (title, screenName, focus) => services.cover(title, screenName, focus)
     }
     Timer {
         interval: 250; repeat: true

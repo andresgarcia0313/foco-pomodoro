@@ -44,6 +44,8 @@ impl PomodoroTimer {
             });
         }
         let (finished, next) = (end.finished.index(), end.next.index());
+        // QML reacts to the signal by reading the new phase, so it must already be visible.
+        self.as_mut().sync();
         self.as_mut().phase_ended(finished, next, end.counted);
     }
 

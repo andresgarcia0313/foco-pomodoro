@@ -10,7 +10,12 @@ QtObject {
     property int activeId: 1
     property bool canUndo: false
     signal newRequested()
-    function add(title, estimate) {}
+    function add(title, estimate) {
+        const id = Math.max(...items.map(t => t.id)) + 1
+        items = items.concat([{ id, title, estimate, done: 0, completed: false }])
+        return id
+    }
+    function recredit(id) { activeId = id }
     function toggleCompleted(id) {}
     function remove(id) {}
     function undoRemove() {}

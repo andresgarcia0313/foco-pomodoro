@@ -5,6 +5,11 @@ AboutDialog 1.0 AboutDialog.qml
 ActiveTask 1.0 ActiveTask.qml
 AppMenu 1.0 AppMenu.qml
 AppShell 1.0 AppShell.qml
+BreakCountdown 1.0 BreakCountdown.qml
+BreakQuestion 1.0 BreakQuestion.qml
+BreakScreens 1.0 BreakScreens.qml
+BreakView 1.0 BreakView.qml
+BreakWindow 1.0 BreakWindow.qml
 ClockFace 1.0 ClockFace.qml
 ComboRow 1.0 ComboRow.qml
 DisclosureButton 1.0 DisclosureButton.qml
@@ -30,6 +35,7 @@ SettingsWindow 1.0 SettingsWindow.qml
 ShortcutsDialog 1.0 ShortcutsDialog.qml
 StatsView 1.0 StatsView.qml
 SwitchRow 1.0 SwitchRow.qml
+TaskChoice 1.0 TaskChoice.qml
 TaskInput 1.0 TaskInput.qml
 TaskRow 1.0 TaskRow.qml
 TasksView 1.0 TasksView.qml

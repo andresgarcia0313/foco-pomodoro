@@ -19,6 +19,20 @@ QtObject {
         { name: "14-ajustes-dracula", kind: "settings", w: 460, h: 900 },
         { name: "15-ajustes-alucard", kind: "settings", appearance: 1, w: 460, h: 900 },
         { name: "16-mini-dracula", kind: "mini", w: 260, h: 96 },
-        { name: "17-mini-descanso-alucard", kind: "mini", appearance: 1, phase: 1, w: 260, h: 96 }
+        { name: "17-mini-descanso-alucard", kind: "mini", appearance: 1, phase: 1, w: 260, h: 96 },
+        { name: "18-descanso-pregunta-dracula", kind: "break", step: "review", phase: 1,
+          remaining: 4 * 60 + 52, cycleDone: 2, w: 1280, h: 800 },
+        { name: "19-descanso-cuenta-dracula", kind: "break", step: "rest", phase: 1,
+          remaining: 3 * 60 + 7, cycleDone: 2, w: 1280, h: 800 },
+        { name: "20-descanso-siguiente-dracula", kind: "break", step: "next", phase: 0, state: 0,
+          remaining: 25 * 60, cycleDone: 2, w: 1280, h: 800 },
+        { name: "21-descanso-otra-pantalla", kind: "break", questions: false, phase: 2,
+          remaining: 14 * 60 + 30, cycleDone: 4, w: 1280, h: 800 },
+        { name: "22-descanso-pregunta-alucard", kind: "break", step: "review", appearance: 1,
+          phase: 1, remaining: 4 * 60 + 52, cycleDone: 2, w: 1280, h: 800 },
+        { name: "24-descanso-terminado-otra-pantalla", kind: "break", questions: false, phase: 0,
+          state: 0, remaining: 25 * 60, w: 1280, h: 800 },
+        { name: "23-descanso-letra-doble", kind: "break", step: "next", phase: 0, state: 0,
+          fontScale: 2, remaining: 25 * 60, w: 1024, h: 640 }
     ]
 }
