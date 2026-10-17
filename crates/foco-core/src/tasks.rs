@@ -2,6 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
+mod credit;
 mod undo;
 
 pub const MAX_ESTIMATE: u32 = 12;
@@ -23,6 +24,9 @@ pub struct TaskList {
     active: Option<u64>,
     #[serde(skip)]
     removed: Option<(usize, Task, bool)>,
+    /// Task credited with the last focus (`Some(None)`: none was active); see `recredit`.
+    #[serde(skip)]
+    last_credit: Option<Option<u64>>,
 }
 
 impl TaskList {
@@ -77,14 +81,6 @@ impl TaskList {
         task.completed = !task.completed;
         if task.completed && self.active == Some(id) {
             self.active = None;
-        }
-    }
-
-    /// A completed focus block counts for the active task.
-    pub fn credit_focus(&mut self) {
-        let active = self.active;
-        if let Some(task) = self.items.iter_mut().find(|t| Some(t.id) == active) {
-            task.done += 1;
         }
     }
 }

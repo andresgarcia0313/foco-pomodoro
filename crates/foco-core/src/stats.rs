@@ -45,6 +45,13 @@ impl History {
         self.sessions.push(session);
     }
 
+    /// The break screen corrected which task the last focus was for.
+    pub fn retitle_last(&mut self, title: String) {
+        if let Some(last) = self.sessions.last_mut() {
+            last.task = Some(title);
+        }
+    }
+
     pub fn day_total(&self, date: NaiveDate) -> DayTotal {
         let (count, minutes) = self
             .sessions

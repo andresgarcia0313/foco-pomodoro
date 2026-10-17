@@ -21,6 +21,8 @@ pub struct Settings {
     pub long_break_every: u32,
     pub auto_start_breaks: bool,
     pub auto_start_focus: bool,
+    /// Full-screen break that asks which task the focus went to and which one comes next.
+    pub break_screen: bool,
     pub notifications: bool,
     pub sound: bool,
     pub volume: f32,
@@ -41,6 +43,7 @@ impl Default for Settings {
             long_break_every: 4,
             auto_start_breaks: false,
             auto_start_focus: false,
+            break_screen: true,
             notifications: true,
             sound: true,
             volume: 0.6,
