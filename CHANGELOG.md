@@ -13,6 +13,21 @@ Formato basado en "Keep a Changelog"; versiones con SemVer (versionado semántic
 | 0.1.0 | 2026-10-07 | Andrés García | Primera versión del registro |
 | 0.2.0 | 2026-10-08 | Andrés García | Versión 0.2.0: reanudación exacta, recuperación automática, ajuste de minutos y registro de uso |
 | 0.3.0 | 2026-10-08 | Andrés García | Versión 0.3.0: código abierto y paquetes para Linux, Windows y macOS |
+| 0.4.0 | 2026-10-16 | Andrés García | Versión 0.4.0: pantalla de descanso con registro de tarea |
+
+## [0.4.0] - 2026-10-16
+
+### Agregado
+
+- Pantalla de descanso a pantalla completa en cada monitor: pregunta en qué tarea se trabajó
+  (la propuesta, otra o una nueva) y acredita el enfoque a esa tarea, también en Estadísticas.
+- Cuenta regresiva del descanso configurado, que arranca sola al aparecer la pantalla.
+- Al terminar el descanso pregunta con qué tarea se sigue y arranca el enfoque.
+- Ajuste "Pantalla completa en los descansos", activo por defecto.
+
+### Corregido
+
+- La señal de fin de fase llega a la interfaz con el estado ya actualizado.
 
 ## [0.3.0] - 2026-10-08
 

@@ -16,6 +16,7 @@ en Qt 6 con QML (lenguaje declarativo de interfaces de Qt) y la paleta Dracula.
 | 0.1.0 | 2026-10-07 | Andrés García | Primera versión del documento |
 | 0.2.0 | 2026-10-08 | Andrés García | Ajuste de minutos, recuperación automática y registro de uso |
 | 0.3.0 | 2026-10-08 | Andrés García | Instalación con paquetes deb, instalador de Windows y aplicación de macOS |
+| 0.4.0 | 2026-10-16 | Andrés García | Pantalla de descanso que registra la tarea trabajada y la siguiente |
 
 ## Qué hace
 
@@ -27,6 +28,9 @@ en Qt 6 con QML (lenguaje declarativo de interfaces de Qt) y la paleta Dracula.
 - Notificaciones nativas, sonido opcional, bandeja del sistema, modo mini siempre encima.
 - Apariencia Drácula (oscura), Alucard (clara) o según el sistema; atajos para todo.
 - Añadir o quitar un minuto (botones junto al reloj o teclas + y -).
+- Pantalla de descanso en todos los monitores: pregunta en qué tarea se trabajó, cuenta el
+  descanso y, al terminar, pregunta con qué tarea se sigue. Se cierra con un botón o Esc y se
+  apaga en Ajustes.
 - Si se cierra, cae o se congela, vuelve con la misma fase, tiempo y modo de ventana.
 - Sin cuentas ni red: los datos y el registro de uso (máximo 10 MB) viven en archivos locales.
 

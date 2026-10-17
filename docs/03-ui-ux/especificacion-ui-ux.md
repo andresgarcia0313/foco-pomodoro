@@ -133,3 +133,7 @@ segmentos del anillo exterior fino son el ciclo de enfoques hasta el descanso la
 6. Cerrar la ventana no detiene el temporizador; Salir sí, y guarda el estado.
 7. Con "Reducir movimiento" activo no hay animaciones, salvo el avance del anillo cada segundo.
 8. Los atajos de `textos.md` funcionan en las tres plataformas con Cmd en macOS.
+9. Pantalla de descanso: cubre cada monitor; las preguntas solo en el de la ventana principal;
+   la tarea propuesta viene elegida, así que confirmar sin tocar nada la conserva; ninguna
+   tecla responde; Esc y el botón Cerrar la cierran sin detener el descanso; al terminar el
+   descanso vuelve a aparecer y espera la tarea siguiente (galería 18 a 24).

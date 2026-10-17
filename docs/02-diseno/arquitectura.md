@@ -1,7 +1,7 @@
 ---
 lang: es-CO
 título: Foco - Diseño de arquitectura
-versión: 1.1.0
+versión: 1.2.0
 ---
 
 # Foco - Diseño de arquitectura
@@ -12,6 +12,7 @@ versión: 1.1.0
 | --- | --- | --- | --- |
 | 1.0.0 | 2026-10-07 | Andrés García | Vista de componentes, máquina de estados, datos, decisiones y trazabilidad |
 | 1.1.0 | 2026-10-08 | Andrés García | Supervisor de proceso, guardián de congelamiento, registro de uso y siempre visible en KDE Wayland |
+| 1.2.0 | 2026-10-16 | Andrés García | Pantalla de descanso: crédito corregible, una ventana por monitor y colocación en KDE Wayland |
 
 ## 1. Vista general
 
@@ -95,6 +96,9 @@ esquema sin migraciones.
 | DA-11 | Guardián de congelamiento: un hueco de más de 10 s entre pulsos no cuenta como tiempo de la fase | Contar el hueco: un congelamiento de horas terminaba y contaba el enfoque sin haberlo hecho |
 | DA-12 | Siempre visible en KDE Wayland con un guion de KWin por D-Bus (`keepAbove`, filtrado por proceso y título) | Indicación de Qt: Wayland la ignora por diseño; capa de LayerShellQt: la ventana deja de ser normal (sin bordes ni barra de tareas) |
 | DA-13 | Sonido cargado bajo demanda (`Loader`) | Cargarlo siempre: Qt Multimedia arrastra FFmpeg y controladores de vídeo aunque esté en silencio |
+| DA-14 | Crédito del último enfoque corregible una vez (`TaskList::recredit`) y título del historial corregido con él | Preguntar antes de acreditar: el enfoque quedaría sin registrar si se cierra la pantalla |
+| DA-15 | Una ventana de descanso por pantalla (`Instantiator` sobre las pantallas), destruidas al cerrar; en KDE Wayland un guion de KWin las manda a su salida, a pantalla completa y encima; en macOS ventana sin marco del tamaño de la pantalla | Una sola ventana: deja libres los demás monitores; capa de LayerShellQt: misma razón que DA-12; `showFullScreen` en macOS: crea un escritorio aparte con animación |
+| DA-16 | Ninguna tecla responde las preguntas y ningún control nace con el foco del teclado | Intro para confirmar: lo que se estaba escribiendo al aparecer la pantalla terminaba respondiendo (queja repetida en Stretchly y Safe Eyes) |
 
 ## 5. Trazabilidad
 
@@ -112,5 +116,6 @@ esquema sin migraciones.
 | RF-13, RNF-08 | `foco-core/src/timer/snapshot.rs`, `timer/guard.rs`, `foco-app/src/supervisor.rs` | `tests/time_guard.rs`, `tests/storage_export.rs`, prueba de integración de caída y cuelgue |
 | RF-16 | `Timer::adjust`, `StepButton.qml` | `tests/time_guard.rs` |
 | RF-17 | `foco-core/src/usage.rs`, `store.rs` | `tests/time_guard.rs` |
+| RF-18 | `foco-core/src/tasks/credit.rs`, `BreakScreens.qml`, `BreakView.qml`, `kwin.rs` | `tests/focus_review.rs`, galería 18 a 24, prueba real en dos monitores |
 | RF-14 | `foco-core/src/export.rs` | `tests/storage_export.rs` |
 | RNF-04 | Tokens con contraste medido | `revision-diseno.md` |

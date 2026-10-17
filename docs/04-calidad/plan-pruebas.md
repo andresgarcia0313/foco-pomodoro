@@ -38,6 +38,9 @@ versión: 1.0.0
    valores imposibles corregidos.
 10. Sesión guardada se restaura en pausa con el mismo tiempo restante.
 11. CSV (valores separados por comas) con comillas y comas escapadas según RFC 4180.
+12. Pantalla de descanso: mover el crédito a la tarea real, conservarlo si se confirma la
+    propuesta, acreditar un enfoque sin tarea activa, ignorar tareas inexistentes y corregir el
+    título del historial; archivos viejos reciben el ajuste activado.
 
 ## 3. Criterios de salida de una versión
 
