@@ -47,6 +47,7 @@ void foco_all_desktops(QGuiApplication *app) { app->installEventFilter(new Break
 #include <shobjidl.h>
 #include <windows.h>
 #pragma comment(lib, "ole32.lib")
+#pragma comment(lib, "user32.lib")
 
 namespace {
 IVirtualDesktopManager *desktops() {
