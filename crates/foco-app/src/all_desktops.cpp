@@ -71,12 +71,14 @@ bool on_current_desktop(QWindow *window) {
 void follow_desktop() {
     for (QWindow *window : QGuiApplication::topLevelWindows()) {
         if (!window->isVisible() || !is_break(window) || on_current_desktop(window)) continue;
-        // The desktop in use is the one of the window in front; failing that, show it again.
-        GUID desktop{};
+        // The desktop in use is the one of the window in front, unless that window shares the
+        // break's desktop (often the break itself is still in front); else show it again.
+        GUID desktop{}, own{};
         auto hwnd = reinterpret_cast<HWND>(window->winId());
         HWND front = GetForegroundWindow();
         if (front && SUCCEEDED(desktops()->GetWindowDesktopId(front, &desktop)) &&
-            desktop != GUID{} && SUCCEEDED(desktops()->MoveWindowToDesktop(hwnd, desktop)))
+            SUCCEEDED(desktops()->GetWindowDesktopId(hwnd, &own)) && desktop != GUID{} &&
+            desktop != own && SUCCEEDED(desktops()->MoveWindowToDesktop(hwnd, desktop)))
             continue;
         window->hide();
         QMetaObject::invokeMethod(window, "cover");  // BreakWindow.qml, back on its screen
