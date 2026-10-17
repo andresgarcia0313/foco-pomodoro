@@ -20,13 +20,22 @@ Window {
     flags: Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
     color: "transparent"
 
-    // macOS turns full screen into a separate Space with its own animation; a borderless window
-    // the size of the screen covers it in place instead.
+    // The screen this window covers. Qt reassigns `screen` from the window's position, and a
+    // new window sits at 0,0 on the first screen, where full screen would then be requested.
+    required property var place
+
+    // Placed on its own screen first, also when shown again on another desktop. macOS turns
+    // full screen into a separate Space with its own animation; a borderless window the size
+    // of the screen covers it in place instead.
     function cover() {
-        if (Qt.platform.os !== "osx") return showFullScreen()
-        x = screen.virtualX; y = screen.virtualY
-        width = screen.width; height = screen.height
-        show()
+        screen = place
+        x = place.virtualX; y = place.virtualY
+        width = place.width; height = place.height
+        if (Qt.platform.os === "osx") show()
+        else showFullScreen()
+        // Where the window manager allows it; a window that never had the focus cannot tell
+        // when its desktop is left (BreakScreens `follow`).
+        if (questions) requestActivate()
     }
 
     BreakView {

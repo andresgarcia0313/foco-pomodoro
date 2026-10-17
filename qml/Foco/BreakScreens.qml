@@ -2,9 +2,9 @@ import QtQuick
 
 // Covers every screen during a break. Only the screen that holds the main window asks the
 // questions; the others show the countdown. Closed, the windows are destroyed, not hidden.
-// With `follow`, where the window manager cannot pin them to every virtual desktop (Windows,
-// GNOME), the windows come back on the desktop in use once none of them has the focus: shown
-// again, a window opens on the current desktop.
+// With `follow`, where neither the window manager nor the app can pin them to every virtual
+// desktop (GNOME), the windows come back on the desktop in use once none of them has the
+// focus: shown again, a window opens on the current desktop.
 Instantiator {
     id: screens
     required property QtObject timer
@@ -31,7 +31,7 @@ Instantiator {
     model: Qt.application.screens
     delegate: BreakWindow {
         required property var modelData
-        screen: modelData
+        place: modelData
         screenName: modelData.name
         timer: screens.timer
         tasks: screens.tasks
@@ -43,7 +43,8 @@ Instantiator {
         onCloseRequested: Qt.callLater(screens.close)
         onPlaced: screens.covered(title, screenName, questions)
         onDeactivated: if (screens.follow) refollow.restart()
-        Component.onCompleted: cover()
+        // The window shown last takes the focus: the one that asks goes after the others.
+        Component.onCompleted: questions ? Qt.callLater(cover) : cover()
     }
     // Waits for the desktop switch to settle, so moving focus between screens does not count.
     property Timer refollow: Timer {
@@ -51,6 +52,7 @@ Instantiator {
         onTriggered: {
             const all = screens.windows()
             if (!screens.shown || all.some(w => w.active)) return
+            all.sort((a, b) => a.questions - b.questions)
             for (const w of all) { w.hide(); w.cover() }
         }
     }

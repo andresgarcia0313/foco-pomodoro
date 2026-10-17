@@ -22,6 +22,8 @@ Formato basado en "Keep a Changelog"; versiones con SemVer (versionado semántic
 
 - La pantalla de descanso solo cubría el escritorio virtual donde estaba Foco: ahora cubre
   todos en KDE y macOS, y en Windows y GNOME aparece en el escritorio al que se cambie.
+- Fuera de KDE, con varios monitores, las ventanas de descanso caían todas en el monitor
+  principal: ahora cada una cubre el suyo y la de las preguntas recibe el foco.
 
 ## [0.4.0] - 2026-10-16
 

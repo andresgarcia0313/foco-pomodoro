@@ -3,9 +3,10 @@
 //! title. Other platforms honour Qt's hints and screen, so this does nothing there.
 
 /// Whether break windows already show on every virtual desktop by themselves: KWin pins them
-/// (see `cover`) and macOS joins all Spaces (`all_spaces.cpp`). Elsewhere QML moves them along.
+/// (see `cover`); macOS and Windows keep them there natively (`all_desktops.cpp`). Elsewhere,
+/// as on GNOME, QML moves them to the desktop in use.
 pub fn pins_desktops() -> bool {
-    cfg!(target_os = "macos") || (cfg!(target_os = "linux") && is_kde())
+    cfg!(any(target_os = "macos", target_os = "windows")) || (cfg!(target_os = "linux") && is_kde())
 }
 
 fn is_kde() -> bool {

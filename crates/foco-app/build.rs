@@ -11,7 +11,7 @@ const BRIDGES: [&str; 5] = [
 ];
 
 fn main() {
-    // all_spaces.cpp talks to AppKit through the Objective-C runtime.
+    // all_desktops.cpp talks to AppKit through the Objective-C runtime.
     if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("macos") {
         println!("cargo:rustc-link-lib=objc");
     }
@@ -30,7 +30,7 @@ fn main() {
     .qt_module("Quick")
     .qt_module("QuickControls2")
     .qt_module("Widgets")
-    .cpp_files(["src/app_shim.cpp", "src/all_spaces.cpp"])
+    .cpp_files(["src/app_shim.cpp", "src/all_desktops.cpp"])
     .qrc_resources(
         QResources::new()
             .resource(QResource::new().files(["assets/chime.wav", "assets/foco.svg"]))
