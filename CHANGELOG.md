@@ -14,6 +14,14 @@ Formato basado en "Keep a Changelog"; versiones con SemVer (versionado semántic
 | 0.2.0 | 2026-10-08 | Andrés García | Versión 0.2.0: reanudación exacta, recuperación automática, ajuste de minutos y registro de uso |
 | 0.3.0 | 2026-10-08 | Andrés García | Versión 0.3.0: código abierto y paquetes para Linux, Windows y macOS |
 | 0.4.0 | 2026-10-16 | Andrés García | Versión 0.4.0: pantalla de descanso con registro de tarea |
+| 0.4.1 | 2026-10-17 | Andrés García | Versión 0.4.1: pantalla de descanso en todos los escritorios virtuales |
+
+## [0.4.1] - 2026-10-17
+
+### Corregido
+
+- La pantalla de descanso solo cubría el escritorio virtual donde estaba Foco: ahora cubre
+  todos en KDE y macOS, y en Windows y GNOME aparece en el escritorio al que se cambie.
 
 ## [0.4.0] - 2026-10-16
 

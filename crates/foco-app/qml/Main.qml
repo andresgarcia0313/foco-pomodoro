@@ -56,6 +56,7 @@ MainWindow {
         timer: pomodoro
         tasks: taskStore
         home: win.screen
+        follow: !services.pinsDesktops()
         onReviewed: id => { services.track("break_review"); taskStore.recredit(id); statsStore.refresh() }
         onContinued: id => {
             services.track("break_continue")

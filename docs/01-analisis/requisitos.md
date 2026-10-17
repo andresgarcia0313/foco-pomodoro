@@ -13,6 +13,7 @@ versión: 1.2.0
 | 1.0.0 | 2026-10-07 | Andrés García | Versión inicial: visión, actores, requisitos, casos de uso y riesgos |
 | 1.1.0 | 2026-10-08 | Andrés García | RF-13 ampliado a caídas y congelamientos; nuevos RF-16 y RF-17; RNF-08 con recuperación automática |
 | 1.2.0 | 2026-10-16 | Andrés García | RF-18: pantalla de descanso que registra la tarea trabajada y la siguiente |
+| 1.2.1 | 2026-10-17 | Andrés García | RF-18: la pantalla de descanso cubre todos los escritorios virtuales |
 
 ## 1. Visión
 
@@ -52,7 +53,7 @@ con la nube y no pide cuenta.
 | RF-15 | Cuentas, sincronización en la nube, versión móvil | No hará |
 | RF-16 | Añadir o quitar un minuto a la fase en curso, con botón (mantener pulsado repite) y con las teclas + y - | Debe |
 | RF-17 | Registro local de uso (conteo diario de cada función) que guía las mejoras de la interfaz; nunca sale del equipo ni pasa de 10 MB | Debe |
-| RF-18 | Pantalla de descanso (activa por defecto, se apaga en Ajustes): al completar un enfoque cubre todos los monitores, arranca el descanso configurado y pregunta en qué tarea se trabajó (la propuesta, otra de la lista o una nueva); el enfoque se acredita a la elegida. Se cierra con un botón o Esc. Al terminar el descanso pregunta con qué tarea se sigue y con eso arranca el enfoque. Es la excepción pedida a "no robar el foco" de RF-04 | Debe |
+| RF-18 | Pantalla de descanso (activa por defecto, se apaga en Ajustes): al completar un enfoque cubre todos los monitores en todos los escritorios virtuales (cambiar de escritorio no la deja atrás), arranca el descanso configurado y pregunta en qué tarea se trabajó (la propuesta, otra de la lista o una nueva); el enfoque se acredita a la elegida. Se cierra con un botón o Esc. Al terminar el descanso pregunta con qué tarea se sigue y con eso arranca el enfoque. Es la excepción pedida a "no robar el foco" de RF-04 | Debe |
 
 ## 4. Requisitos no funcionales
 

@@ -17,6 +17,7 @@ en Qt 6 con QML (lenguaje declarativo de interfaces de Qt) y la paleta Dracula.
 | 0.2.0 | 2026-10-08 | Andrés García | Ajuste de minutos, recuperación automática y registro de uso |
 | 0.3.0 | 2026-10-08 | Andrés García | Instalación con paquetes deb, instalador de Windows y aplicación de macOS |
 | 0.4.0 | 2026-10-16 | Andrés García | Pantalla de descanso que registra la tarea trabajada y la siguiente |
+| 0.4.1 | 2026-10-17 | Andrés García | Pantalla de descanso en todos los escritorios virtuales |
 
 ## Qué hace
 

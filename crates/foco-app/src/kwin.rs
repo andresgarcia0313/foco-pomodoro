@@ -2,6 +2,16 @@
 //! or place itself, so a tiny KWin script acts on our own windows, matched by process id and
 //! title. Other platforms honour Qt's hints and screen, so this does nothing there.
 
+/// Whether break windows already show on every virtual desktop by themselves: KWin pins them
+/// (see `cover`) and macOS joins all Spaces (`all_spaces.cpp`). Elsewhere QML moves them along.
+pub fn pins_desktops() -> bool {
+    cfg!(target_os = "macos") || (cfg!(target_os = "linux") && is_kde())
+}
+
+fn is_kde() -> bool {
+    std::env::var("XDG_CURRENT_DESKTOP").is_ok_and(|d| d.contains("KDE"))
+}
+
 #[cfg(target_os = "linux")]
 pub fn keep_above(title: String, on: bool) {
     let pid = std::process::id();
@@ -11,8 +21,8 @@ pub fn keep_above(title: String, on: bool) {
     ));
 }
 
-/// Break screen: our window titled `title` goes full screen, above all, on output `screen`;
-/// `focus` also activates it, so Esc and Enter reach it.
+/// Break screen: our window titled `title` goes full screen, above all, on output `screen`, on
+/// every virtual desktop and activity; `focus` also activates it, so Esc and Enter reach it.
 #[cfg(target_os = "linux")]
 pub fn cover(title: String, screen: String, focus: bool) {
     let pid = std::process::id();
@@ -26,14 +36,15 @@ pub fn cover(title: String, screen: String, focus: bool) {
          for (const w of workspace.windowList()) \
          if (w.pid === {pid} && w.caption === {title:?}) {{ \
          if (out) workspace.sendClientToScreen(w, out); \
-         w.keepAbove = true; w.fullScreen = true; {activate} }}"
+         w.keepAbove = true; w.fullScreen = true; \
+         w.onAllDesktops = true; w.activities = []; {activate} }}"
     ));
 }
 
 #[cfg(target_os = "linux")]
 fn run(script: String) {
-    let kde = std::env::var("XDG_CURRENT_DESKTOP").is_ok_and(|d| d.contains("KDE"));
-    if !kde || std::env::var_os("WAYLAND_DISPLAY").is_none() {
+    // On X11 too: Qt's hints cover keep-above and full screen there, but not all desktops.
+    if !is_kde() {
         return;
     }
     // D-Bus round trips stay off the Qt thread; a failure only means the hint is not applied.

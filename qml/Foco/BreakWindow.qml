@@ -15,6 +15,7 @@ Window {
     signal continued(int taskId)
     signal closeRequested()
     signal placed()
+    signal deactivated()
     title: qsTr("Foco: descanso") + " · " + screenName
     flags: Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
     color: "transparent"
@@ -40,6 +41,7 @@ Window {
         onContinued: id => win.continued(id)
         onCloseRequested: win.closeRequested()
     }
+    onActiveChanged: if (!active) deactivated()
     Timer { interval: 300; running: win.visible; onTriggered: win.placed() }
     Shortcut { sequence: "Escape"; onActivated: win.closeRequested() }
 }

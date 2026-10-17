@@ -11,6 +11,8 @@ namespace {
 int app_argc = 0;
 }
 
+void foco_join_all_spaces(QGuiApplication *app);
+
 extern "C" void foco_app_new(int argc, char **argv) {
     app_argc = argc;
     auto *app = new QApplication(app_argc, argv);
@@ -21,6 +23,7 @@ extern "C" void foco_app_new(int argc, char **argv) {
     // The window may hide to the tray; QML decides when the app really quits.
     app->setQuitOnLastWindowClosed(false);
     QQuickStyle::setStyle(QStringLiteral("Basic"));
+    foco_join_all_spaces(app);
 }
 
 extern "C" int foco_app_run() {

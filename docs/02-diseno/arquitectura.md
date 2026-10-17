@@ -13,6 +13,7 @@ versión: 1.2.0
 | 1.0.0 | 2026-10-07 | Andrés García | Vista de componentes, máquina de estados, datos, decisiones y trazabilidad |
 | 1.1.0 | 2026-10-08 | Andrés García | Supervisor de proceso, guardián de congelamiento, registro de uso y siempre visible en KDE Wayland |
 | 1.2.0 | 2026-10-16 | Andrés García | Pantalla de descanso: crédito corregible, una ventana por monitor y colocación en KDE Wayland |
+| 1.2.1 | 2026-10-17 | Andrés García | DA-17: pantalla de descanso en todos los escritorios virtuales |
 
 ## 1. Vista general
 
@@ -99,6 +100,7 @@ esquema sin migraciones.
 | DA-14 | Crédito del último enfoque corregible una vez (`TaskList::recredit`) y título del historial corregido con él | Preguntar antes de acreditar: el enfoque quedaría sin registrar si se cierra la pantalla |
 | DA-15 | Una ventana de descanso por pantalla (`Instantiator` sobre las pantallas), destruidas al cerrar; en KDE Wayland un guion de KWin las manda a su salida, a pantalla completa y encima; en macOS ventana sin marco del tamaño de la pantalla | Una sola ventana: deja libres los demás monitores; capa de LayerShellQt: misma razón que DA-12; `showFullScreen` en macOS: crea un escritorio aparte con animación |
 | DA-16 | Ninguna tecla responde las preguntas y ningún control nace con el foco del teclado | Intro para confirmar: lo que se estaba escribiendo al aparecer la pantalla terminaba respondiendo (queja repetida en Stretchly y Safe Eyes) |
+| DA-17 | Pantalla de descanso en todos los escritorios virtuales: en KDE (Wayland y X11) el guion de KWin la fija a todos los escritorios y actividades; en macOS se une a todos los espacios, también los de aplicaciones a pantalla completa; en Windows y GNOME, que no dejan fijarla, vuelve a mostrarse en el escritorio en uso cuando ninguna de sus ventanas tiene el foco | Volver a mostrarla en todas las plataformas: en KDE y macOS parpadearía en cada cambio de escritorio; interfaces no documentadas de escritorios virtuales en Windows: cambian entre versiones |
 
 ## 5. Trazabilidad
 

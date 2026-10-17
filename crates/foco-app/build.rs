@@ -11,6 +11,10 @@ const BRIDGES: [&str; 5] = [
 ];
 
 fn main() {
+    // all_spaces.cpp talks to AppKit through the Objective-C runtime.
+    if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("macos") {
+        println!("cargo:rustc-link-lib=objc");
+    }
     let interface = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../qml/Foco");
     let interface = interface.canonicalize().expect("qml/Foco exists");
     println!("cargo:rerun-if-changed={}", interface.display());
@@ -26,7 +30,7 @@ fn main() {
     .qt_module("Quick")
     .qt_module("QuickControls2")
     .qt_module("Widgets")
-    .cpp_files(["src/app_shim.cpp"])
+    .cpp_files(["src/app_shim.cpp", "src/all_spaces.cpp"])
     .qrc_resources(
         QResources::new()
             .resource(QResource::new().files(["assets/chime.wav", "assets/foco.svg"]))
